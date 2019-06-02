@@ -86,7 +86,7 @@ public class GrammarTest extends TestBase{
 
     @Test
     public void test_inclause_numberlist() throws IOException {
-        KafkaSqlParser parser = buildParser("xxxx in (12,3,4,5,56)".toUpperCase());
+        KafkaSqlParser parser = buildParser("partition in (12,3,4,5,56)".toUpperCase());
         ParseTree tree = parser.inCluase();
         Assert.assertFalse(hasErrorNode(tree));
         System.out.println(tree.toStringTree(parser));
@@ -94,7 +94,7 @@ public class GrammarTest extends TestBase{
 
     @Test
     public void test_inclause_charslist() throws IOException {
-        KafkaSqlParser parser = buildParser("xxxx in ('12','3','4','5','56')".toUpperCase());
+        KafkaSqlParser parser = buildParser("partition in ('12','3','4','5','56')".toUpperCase());
         ParseTree tree = parser.inCluase();
         Assert.assertFalse(hasErrorNode(tree));
         System.out.println(tree.toStringTree(parser));
@@ -110,7 +110,7 @@ public class GrammarTest extends TestBase{
 
     @Test
     public void test_between() throws IOException {
-        KafkaSqlParser parser = buildParser("aaa between (1212, 212)".toUpperCase());
+        KafkaSqlParser parser = buildParser("partition between (1212, 212)".toUpperCase());
         ParseTree tree = parser.betweenCluase();
 
         Assert.assertFalse(hasErrorNode(tree));
