@@ -21,6 +21,9 @@ value : (byteFunction | jsonFunction | strFunction | ID);
 
 whereClause: WHERE (equationClause | inCluase | betweenCluase);
 
+inCluase : (PARTITION | TIMESTAMP | OFFSET) IN '(' (NUMBER (',' SPACE* NUMBER)* | CHARS  (',' SPACE*  CHARS )*) ')' ;
+betweenCluase: (PARTITION | TIMESTAMP | OFFSET)BETWEEN '(' NUMBER ',' NUMBER ')';
+
 equationClause : partitionsEquslCluase
     | timestampEquslCluase
     | valueEqualClause
@@ -28,18 +31,15 @@ equationClause : partitionsEquslCluase
 
 partitionsEquslCluase: PARTITION EQUAL NUMBER;
 timestampEquslCluase: TIMESTAMP EQUAL NUMBER;
-valueEqualClause: (byteFunction | jsonFunction | strFunction ) EQUAL (CHARS | NUMBER);
+valueEqualClause: value EQUAL (CHARS | NUMBER);
 
 byteFunction: BYTE '(' ID ')';
 jsonFunction: JSON '(' ID ')';
-strFunction: STAR '(' ID ')';
-
-inCluase : ID IN '(' (NUMBER (',' SPACE* NUMBER)* | CHARS  (',' SPACE*  CHARS )*) ')' ;
+strFunction: STR '(' ID ')';
 
 numberList: NUMBER (',' SPACE* NUMBER)*;
 charsList: CHARS  (',' SPACE*  CHARS )*;
 
-betweenCluase: ID BETWEEN '(' NUMBER ',' NUMBER ')';
 
 WS:                     [ \t\n\r]+ -> skip ;
 
@@ -51,6 +51,7 @@ BETWEEN:                'BETWEEN';
 
 PARTITION:              'PARTITION';
 TIMESTAMP:              'TIMESTAMP';
+OFFSET:                 'OFFSET';
 
 OFFSETS:                'OFFSETS';
 PARTITIONS:             'PARTITIONS';
