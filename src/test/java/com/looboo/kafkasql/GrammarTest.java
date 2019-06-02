@@ -59,19 +59,15 @@ public class GrammarTest {
         KafkaSqlParser parser = buildParser("offsets(topic)".toUpperCase());
         ParseTree tree = parser.offsetStatement();
         Assert.assertFalse(hasErrorNode(tree));
-        String s = tree.toStringTree(parser);
-        System.out.println(s);
-        Assert.assertEquals(s, "(offsetStatement OFFSETS ( TOPIC ))");
+        System.out.println(tree.toStringTree(parser));
     }
 
     @Test
     public void test_offsetStatement_with_partitions() throws IOException {
         KafkaSqlParser parser = buildParser("offsets(topic.1)".toUpperCase());
         ParseTree tree = parser.offsetStatement();
-//        Assert.assertFalse(hasErrorNode(tree));
-        String s = tree.toStringTree(parser);
-        System.out.println(s);
-        Assert.assertEquals(s, "(offsetStatement OFFSETS ( TOPIC . 1 ))");
+        Assert.assertFalse(hasErrorNode(tree));
+        System.out.println(tree.toStringTree(parser));
     }
 
     @Test
@@ -79,9 +75,7 @@ public class GrammarTest {
         KafkaSqlParser parser = buildParser("partitions(topic)".toUpperCase());
         ParseTree tree = parser.partitionsStatement();
         Assert.assertFalse(hasErrorNode(tree));
-        String s = tree.toStringTree(parser);
-        System.out.println(s);
-        Assert.assertEquals(s, "(partitionsStatement PARTITIONS ( TOPIC ))");
+        System.out.println(tree.toStringTree(parser));
     }
 
     @Test
@@ -89,9 +83,7 @@ public class GrammarTest {
         KafkaSqlParser parser = buildParser("consumers(topic)".toUpperCase());
         ParseTree tree = parser.consumersStatement();
         Assert.assertFalse(hasErrorNode(tree));
-        String s = tree.toStringTree(parser);
-        System.out.println(s);
-        Assert.assertEquals(s, "(consumersStatement CONSUMERS ( TOPIC ))");
+        System.out.println(tree.toStringTree(parser));
     }
 
     @Test
@@ -99,19 +91,15 @@ public class GrammarTest {
         KafkaSqlParser parser = buildParser("consumer_offset(topic)".toUpperCase());
         ParseTree tree = parser.consumerOffsetStatement();
         Assert.assertFalse(hasErrorNode(tree));
-        String s = tree.toStringTree(parser);
-        System.out.println(s);
-        Assert.assertEquals(s, "(consumerOffsetStatement CONSUMER_OFFSET ( TOPIC ))");
+        System.out.println(tree.toStringTree(parser));
     }
 
     @Test
-    public void test_selectStatement() throws IOException {
+    public void test_selectStatement_consumer_offset() throws IOException {
         KafkaSqlParser parser = buildParser("select consumer_offset(topic)".toUpperCase());
         ParseTree tree = parser.selectStatement();
         Assert.assertFalse(hasErrorNode(tree));
-        String s = tree.toStringTree(parser);
-        System.out.println(s);
-        Assert.assertEquals(s, "(selectStatement SELECT (consumerOffsetStatement CONSUMER_OFFSET ( TOPIC )))");
+        System.out.println(tree.toStringTree(parser));
     }
 
     @Test
@@ -119,9 +107,7 @@ public class GrammarTest {
         KafkaSqlParser parser = buildParser("1212, 12114".toUpperCase());
         ParseTree tree = parser.numberList();
         Assert.assertFalse(hasErrorNode(tree));
-        String s = tree.toStringTree(parser);
-        System.out.println(s);
-
+        System.out.println(tree.toStringTree(parser));
     }
 
     @Test
@@ -130,10 +116,7 @@ public class GrammarTest {
         ParseTree tree = parser.charsList();
         Assert.assertFalse(hasErrorNode(tree));
         Assert.assertFalse(hasErrorNode(tree));
-        String s = tree.toStringTree(parser);
-
-        System.out.println(s);
-        Assert.assertEquals(s, "(charsList '123', '12114')");
+        System.out.println(tree.toStringTree(parser));
     }
 
     @Test
@@ -141,10 +124,7 @@ public class GrammarTest {
         KafkaSqlParser parser = buildParser("xxxx in (12,3,4,5,56)".toUpperCase());
         ParseTree tree = parser.inCluase();
         Assert.assertFalse(hasErrorNode(tree));
-        String s = tree.toStringTree(parser);
-
-        System.out.println(s);
-        Assert.assertEquals(s, "(inCluase XXXX IN ( 12,3,4,5,56 ))");
+        System.out.println(tree.toStringTree(parser));
     }
 
     @Test
@@ -152,9 +132,7 @@ public class GrammarTest {
         KafkaSqlParser parser = buildParser("xxxx in ('12','3','4','5','56')".toUpperCase());
         ParseTree tree = parser.inCluase();
         Assert.assertFalse(hasErrorNode(tree));
-        String s = tree.toStringTree(parser);
-        System.out.println(s);
-        Assert.assertEquals(s, "(inCluase XXXX IN ( '12','3','4','5','56' ))");
+        System.out.println(tree.toStringTree(parser));
     }
 
     @Test
@@ -166,13 +144,86 @@ public class GrammarTest {
     }
 
     @Test
-    public void test_numbers() throws IOException {
-        KafkaSqlParser parser = buildParser("12121");
-        ParseTree tree = parser.numberList();
+    public void test_between() throws IOException {
+        KafkaSqlParser parser = buildParser("aaa between (1212, 212)".toUpperCase());
+        ParseTree tree = parser.betweenCluase();
+
         Assert.assertFalse(hasErrorNode(tree));
-        String s = tree.toStringTree(parser);
-        System.out.println(s);
     }
+
+    @Test
+    public void test_partitionsEquslCluase() throws IOException {
+        KafkaSqlParser parser = buildParser("partition = 12121".toUpperCase());
+        ParseTree tree = parser.partitionsEquslCluase();
+        Assert.assertFalse(hasErrorNode(tree));
+        System.out.println(tree.toStringTree(parser));
+    }
+
+    @Test
+    public void test_timestampEquslCluase() throws IOException {
+        KafkaSqlParser parser = buildParser("timestamp = 12121".toUpperCase());
+        ParseTree tree = parser.timestampEquslCluase();
+        Assert.assertFalse(hasErrorNode(tree));
+        System.out.println(tree.toStringTree(parser));
+    }
+
+    @Test
+    public void test_valueEqualClause() throws IOException {
+        KafkaSqlParser parser = buildParser("byte(asdf) = 12121".toUpperCase());
+        ParseTree tree = parser.valueEqualClause();
+        Assert.assertFalse(hasErrorNode(tree));
+        System.out.println(tree.toStringTree(parser));
+    }
+
+    @Test
+    public void test_equationClause() throws IOException {
+        KafkaSqlParser parser = buildParser("byte(asdf) = 12121".toUpperCase());
+        ParseTree tree = parser.valueEqualClause();
+        Assert.assertFalse(hasErrorNode(tree));
+        System.out.println(tree.toStringTree(parser));
+    }
+
+    @Test
+    public void test_whereClause() throws IOException {
+        KafkaSqlParser parser = buildParser("where byte(asdf) = 12121".toUpperCase());
+        ParseTree tree = parser.whereClause();
+        Assert.assertFalse(hasErrorNode(tree));
+        System.out.println(tree.toStringTree(parser));
+    }
+
+    @Test
+    public void test_querySpecification() throws IOException {
+        KafkaSqlParser parser = buildParser("* from abc where byte(asdf) = 12121".toUpperCase());
+        ParseTree tree = parser.querySpecification();
+        Assert.assertFalse(hasErrorNode(tree));
+        System.out.println(tree.toStringTree(parser));
+    }
+
+    @Test
+    public void test_querySpecification1() throws IOException {
+        KafkaSqlParser parser = buildParser("byte(key) from abc where byte(asdf) = 12121".toUpperCase());
+        ParseTree tree = parser.querySpecification();
+        Assert.assertFalse(hasErrorNode(tree));
+        System.out.println(tree.toStringTree(parser));
+    }
+
+    @Test
+    public void test_querySpecification2() throws IOException {
+        KafkaSqlParser parser = buildParser("xxxx from abc where byte(asdf) = 12121".toUpperCase());
+        ParseTree tree = parser.querySpecification();
+        Assert.assertFalse(hasErrorNode(tree));
+        System.out.println(tree.toStringTree(parser));
+    }
+
+    @Test
+    public void test_selectStatement() throws IOException {
+        KafkaSqlParser parser = buildParser(" select xxxx from abc where byte(asdf) = 12121".toUpperCase());
+        ParseTree tree = parser.selectStatement();
+        Assert.assertFalse(hasErrorNode(tree));
+        System.out.println(tree.toStringTree(parser));
+    }
+
+
 
     private boolean hasErrorNode(ParseTree tree) {
         int childCount = tree.getChildCount();

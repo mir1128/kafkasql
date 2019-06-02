@@ -4,10 +4,10 @@ selectStatement : SELECT offsetStatement
     | SELECT partitionsStatement
     | SELECT consumersStatement
     | SELECT consumerOffsetStatement
-//    | SELECT querySpecification
+    | SELECT querySpecification
     ;
 
-offsetStatement : OFFSETS '(' ID ('.' NUMBER_LIST)? ')';
+offsetStatement : OFFSETS '(' ID ('.' NUMBER (',' SPACE* NUMBER)*)? ')';
 
 partitionsStatement : PARTITIONS '(' ID ')';
 
@@ -15,65 +15,59 @@ consumersStatement : CONSUMERS '(' ID ')';
 
 consumerOffsetStatement : CONSUMER_OFFSET '(' ID ')';
 
-//querySpecification : (STAR | value (',' value)*) FROM ID whereClause ? ;
-////
-//value : (byteFunction | jsonFunction | strFunction | ID);
-//
-//whereClause: WHERE (equationClause | inCluase | betweenCluase);
-//
-//equationClause : partitionsEquslCluase
-//    | timestampEquslCluase
-//    | valueEqualClause
-//    ;
-//
-//partitionsEquslCluase: PARTITION EQUAL NUMBER;
-//timestampEquslCluase: TIMESTAMP EQUAL NUMBER;
-//valueEqualClause: (byteFunction | jsonFunction | strFunction ) EQUAL (CHARS | NUMBER);
-//
-//byteFunction: BYTE '(' ID ')';
-//jsonFunction: JSON '(' ID ')';
-//strFunction: STAR '(' ID ')';
-//
-//inCluase : ID IN '(' (NUMBER | '\'' CHARS '\'')  (',' (NUMBER | '\'' CHARS '\'')* ) ')' ;
-//
-inCluase : ID IN '(' (NUMBER_LIST | CHARS_LIST) ')' ;
+querySpecification : (STAR | value (',' value)*) FROM ID whereClause ? ;
 
-numberList: NUMBER_LIST;
-charsList: CHARS_LIST;
+value : (byteFunction | jsonFunction | strFunction | ID);
 
-//betweenCluase: ID BETWEEN '(' NUMBER ',' NUMBER ')';
+whereClause: WHERE (equationClause | inCluase | betweenCluase);
 
+equationClause : partitionsEquslCluase
+    | timestampEquslCluase
+    | valueEqualClause
+    ;
 
-NUMBER_LIST:            NUMBER (',' SPACE* NUMBER)*;
-CHARS_LIST:             '\'' CHARS '\'' (',' SPACE* '\'' CHARS '\'')*;
+partitionsEquslCluase: PARTITION EQUAL NUMBER;
+timestampEquslCluase: TIMESTAMP EQUAL NUMBER;
+valueEqualClause: (byteFunction | jsonFunction | strFunction ) EQUAL (CHARS | NUMBER);
+
+byteFunction: BYTE '(' ID ')';
+jsonFunction: JSON '(' ID ')';
+strFunction: STAR '(' ID ')';
+
+inCluase : ID IN '(' (NUMBER (',' SPACE* NUMBER)* | CHARS  (',' SPACE*  CHARS )*) ')' ;
+
+numberList: NUMBER (',' SPACE* NUMBER)*;
+charsList: CHARS  (',' SPACE*  CHARS )*;
+
+betweenCluase: ID BETWEEN '(' NUMBER ',' NUMBER ')';
 
 WS:                     [ \t\n\r]+ -> skip ;
 
 SELECT:                 'SELECT';
-//FROM:                   'FROM';
+FROM:                   'FROM';
 IN:                     'IN';
-//WHERE:                  'WHERE';
-//BETWEEN:                'BETWEEN';
-//
-//PARTITION:              'PARTITION';
-//TIMESTAMP:              'TIMESTAMP';
-//
+WHERE:                  'WHERE';
+BETWEEN:                'BETWEEN';
+
+PARTITION:              'PARTITION';
+TIMESTAMP:              'TIMESTAMP';
+
 OFFSETS:                'OFFSETS';
 PARTITIONS:             'PARTITIONS';
 CONSUMERS:              'CONSUMERS';
 CONSUMER_OFFSET:        'CONSUMER_OFFSET';
 //
-//BYTE:                   'BYTE';
-//JSON:                   'JSON';
-//STR:                    'STR';
-//STAR:                   '*';
-//EQUAL:                  '=';
-//SEMICOLON:              ';';
+BYTE:                   'BYTE';
+JSON:                   'JSON';
+STR:                    'STR';
+STAR:                   '*';
+EQUAL:                  '=';
+SEMICOLON:              ';';
 
 
 
 ID:                     ID_LITERAL;
 SPACE:                  ' ';
-fragment NUMBER:        [0-9]+;
-CHARS:                  [a-zA-Z0-9]+;
+NUMBER:                 [0-9]+;
+CHARS:                  '\'' [a-zA-Z0-9]+ '\'';
 fragment ID_LITERAL:    [A-Z_$0-9]*?[A-Z_$]+?[A-Z_$0-9]*;
