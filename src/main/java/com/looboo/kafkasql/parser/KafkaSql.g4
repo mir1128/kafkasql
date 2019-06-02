@@ -7,7 +7,7 @@ selectStatement : SELECT offsetStatement
 //    | SELECT querySpecification
     ;
 
-offsetStatement : OFFSETS '(' ID ('.' NUMBER)? ')';
+offsetStatement : OFFSETS '(' ID ('.' NUMBER_LIST)? ')';
 
 partitionsStatement : PARTITIONS '(' ID ')';
 
@@ -70,9 +70,10 @@ CONSUMER_OFFSET:        'CONSUMER_OFFSET';
 //EQUAL:                  '=';
 //SEMICOLON:              ';';
 
-ID:                     ID_LITERAL;
-NUMBER:                 [0-9]+;
-CHARS:                  [a-zA-Z0-9]+;
-SPACE:                  ' ';
 
+
+ID:                     ID_LITERAL;
+SPACE:                  ' ';
+fragment NUMBER:        [0-9]+;
+CHARS:                  [a-zA-Z0-9]+;
 fragment ID_LITERAL:    [A-Z_$0-9]*?[A-Z_$]+?[A-Z_$0-9]*;

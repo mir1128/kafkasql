@@ -18,8 +18,8 @@ public class KafkaSqlParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, NUMBER_LIST=4, CHARS_LIST=5, WS=6, SELECT=7, IN=8, 
-		OFFSETS=9, PARTITIONS=10, CONSUMERS=11, CONSUMER_OFFSET=12, ID=13, NUMBER=14, 
-		CHARS=15, SPACE=16;
+		OFFSETS=9, PARTITIONS=10, CONSUMERS=11, CONSUMER_OFFSET=12, ID=13, SPACE=14, 
+		CHARS=15;
 	public static final int
 		RULE_selectStatement = 0, RULE_offsetStatement = 1, RULE_partitionsStatement = 2, 
 		RULE_consumersStatement = 3, RULE_consumerOffsetStatement = 4, RULE_inCluase = 5, 
@@ -35,8 +35,7 @@ public class KafkaSqlParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'('", "'.'", "')'", null, null, null, "'SELECT'", "'IN'", "'OFFSETS'", 
-			"'PARTITIONS'", "'CONSUMERS'", "'CONSUMER_OFFSET'", null, null, null, 
-			"' '"
+			"'PARTITIONS'", "'CONSUMERS'", "'CONSUMER_OFFSET'", null, "' '"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -44,7 +43,7 @@ public class KafkaSqlParser extends Parser {
 		return new String[] {
 			null, null, null, null, "NUMBER_LIST", "CHARS_LIST", "WS", "SELECT", 
 			"IN", "OFFSETS", "PARTITIONS", "CONSUMERS", "CONSUMER_OFFSET", "ID", 
-			"NUMBER", "CHARS", "SPACE"
+			"SPACE", "CHARS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -177,7 +176,7 @@ public class KafkaSqlParser extends Parser {
 	public static class OffsetStatementContext extends ParserRuleContext {
 		public TerminalNode OFFSETS() { return getToken(KafkaSqlParser.OFFSETS, 0); }
 		public TerminalNode ID() { return getToken(KafkaSqlParser.ID, 0); }
-		public TerminalNode NUMBER() { return getToken(KafkaSqlParser.NUMBER, 0); }
+		public TerminalNode NUMBER_LIST() { return getToken(KafkaSqlParser.NUMBER_LIST, 0); }
 		public OffsetStatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -205,7 +204,7 @@ public class KafkaSqlParser extends Parser {
 				setState(29);
 				match(T__1);
 				setState(30);
-				match(NUMBER);
+				match(NUMBER_LIST);
 				}
 			}
 
@@ -440,7 +439,7 @@ public class KafkaSqlParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\22?\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\21?\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\3\2\3\2\3\2\3\2"+
 		"\3\2\3\2\3\2\5\2\33\n\2\3\3\3\3\3\3\3\3\3\3\5\3\"\n\3\3\3\3\3\3\4\3\4"+
 		"\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3"+
@@ -449,7 +448,7 @@ public class KafkaSqlParser extends Parser {
 		":\3\2\2\2\20<\3\2\2\2\22\23\7\t\2\2\23\33\5\4\3\2\24\25\7\t\2\2\25\33"+
 		"\5\6\4\2\26\27\7\t\2\2\27\33\5\b\5\2\30\31\7\t\2\2\31\33\5\n\6\2\32\22"+
 		"\3\2\2\2\32\24\3\2\2\2\32\26\3\2\2\2\32\30\3\2\2\2\33\3\3\2\2\2\34\35"+
-		"\7\13\2\2\35\36\7\3\2\2\36!\7\17\2\2\37 \7\4\2\2 \"\7\20\2\2!\37\3\2\2"+
+		"\7\13\2\2\35\36\7\3\2\2\36!\7\17\2\2\37 \7\4\2\2 \"\7\6\2\2!\37\3\2\2"+
 		"\2!\"\3\2\2\2\"#\3\2\2\2#$\7\5\2\2$\5\3\2\2\2%&\7\f\2\2&\'\7\3\2\2\'("+
 		"\7\17\2\2()\7\5\2\2)\7\3\2\2\2*+\7\r\2\2+,\7\3\2\2,-\7\17\2\2-.\7\5\2"+
 		"\2.\t\3\2\2\2/\60\7\16\2\2\60\61\7\3\2\2\61\62\7\17\2\2\62\63\7\5\2\2"+
