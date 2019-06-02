@@ -28,3 +28,6 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+*.class
+*.interp
+*.tokens
