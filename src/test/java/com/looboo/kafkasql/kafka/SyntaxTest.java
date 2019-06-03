@@ -1,5 +1,6 @@
-package com.looboo.kafkasql;
+package com.looboo.kafkasql.kafka;
 
+import com.looboo.kafkasql.grammar.TestBase;
 import com.looboo.kafkasql.parser.KafkaSqlParser;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Assert;

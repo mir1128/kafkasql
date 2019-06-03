@@ -1,4 +1,4 @@
-package com.looboo.kafkasql;
+package com.looboo.kafkasql.kafka;
 
 import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.server.ZooKeeperServerMain;

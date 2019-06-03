@@ -1,4 +1,4 @@
-package com.looboo.kafkasql;
+package com.looboo.kafkasql.kafka;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

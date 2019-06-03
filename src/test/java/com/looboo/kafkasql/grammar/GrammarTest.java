@@ -1,4 +1,4 @@
-package com.looboo.kafkasql;
+package com.looboo.kafkasql.grammar;
 
 
 import com.looboo.kafkasql.parser.KafkaSqlParser;
@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-public class GrammarTest extends TestBase{
+public class GrammarTest extends TestBase {
 
 
 //    @Test

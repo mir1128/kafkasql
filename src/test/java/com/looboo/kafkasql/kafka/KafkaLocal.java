@@ -1,4 +1,4 @@
-package com.looboo.kafkasql;
+package com.looboo.kafkasql.kafka;
 
 import kafka.server.KafkaConfig;
 import kafka.server.KafkaServerStartable;

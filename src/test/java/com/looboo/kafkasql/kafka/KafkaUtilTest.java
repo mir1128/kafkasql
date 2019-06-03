@@ -1,4 +1,4 @@
-package com.looboo.kafkasql;
+package com.looboo.kafkasql.kafka;
 
 import com.looboo.kafkasql.kafka.KafkaUtil;
 import org.junit.Before;
