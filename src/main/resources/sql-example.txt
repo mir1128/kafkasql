@@ -17,7 +17,7 @@ select str(key), str(value) from topic;
 
 //offset
 select offsets(topic);
-select offsets(topic.partition);
+select offsets(topic.1);
 
 //partitions
 select partitions(topic);
