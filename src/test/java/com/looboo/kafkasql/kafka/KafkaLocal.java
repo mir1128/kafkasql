@@ -7,15 +7,15 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class KafkaLocal {
-    public KafkaServerStartable kafka;
-    public ZooKeeperLocal zookeeper;
+    private KafkaServerStartable kafka;
+    private Thread zookeeperThread;
 
     public KafkaLocal(Properties kafkaProperties, Properties zkProperties) throws IOException, InterruptedException{
         KafkaConfig kafkaConfig = new KafkaConfig(kafkaProperties);
 
         //start local zookeeper
         System.out.println("starting local zookeeper...");
-        zookeeper = new ZooKeeperLocal(zkProperties);
+        zookeeperThread = new ZooKeeperLocal(zkProperties).beginZookeeperThread();
         System.out.println("done");
 
         //start local kafka broker
@@ -27,6 +27,7 @@ public class KafkaLocal {
 
 
     public void stop(){
+        zookeeperThread.interrupt();
         //stop kafka broker
         System.out.println("stopping kafka...");
         kafka.shutdown();

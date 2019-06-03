@@ -34,7 +34,7 @@ public class KafkaMockServer {
 
     @Test
     public void testSomething() {
-
+        int a = 0;
     }
 
 }
