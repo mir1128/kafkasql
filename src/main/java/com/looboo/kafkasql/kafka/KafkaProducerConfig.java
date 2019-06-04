@@ -49,7 +49,7 @@ public class KafkaProducerConfig extends AbstractConfig {
 
     public Properties getProducerProperties() {
         Properties adminClientProps = new Properties();
-        adminClientProps.putAll(originals());
+        adminClientProps.putAll(values());
         return adminClientProps;
     }
 }

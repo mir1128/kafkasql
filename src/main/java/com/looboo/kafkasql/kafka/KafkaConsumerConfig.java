@@ -68,8 +68,6 @@ public class KafkaConsumerConfig extends AbstractConfig {
                     ConfigDef.Importance.LOW, CONSUMER_MAX_POLL_RECORDS_DOC)
             .define(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, Type.INT, MAX_POLL_INTERVAL_MS_CONFIG_DEFAULT,
                     ConfigDef.Importance.LOW, MAX_POLL_INTERVAL_MS_DOC)
-            .define(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, Type.INT, MAX_POLL_INTERVAL_MS_CONFIG_DEFAULT,
-                    ConfigDef.Importance.LOW, MAX_POLL_INTERVAL_MS_DOC)
             .define(ConsumerConfig.GROUP_ID_CONFIG, Type.STRING, CONSUMER_GROUP_ID_DEFAULT,
                     ConfigDef.Importance.HIGH, CONSUMER_GROUP_ID_DOC);
 
@@ -79,13 +77,13 @@ public class KafkaConsumerConfig extends AbstractConfig {
 
     public Properties getAdminClientProperties() {
         Properties adminClientProps = new Properties();
-        adminClientProps.putAll(originals());
+        adminClientProps.putAll(values());
         return adminClientProps;
     }
 
     public Properties getConsumerProperties() {
         Properties adminClientProps = new Properties();
-        adminClientProps.putAll(originals());
+        adminClientProps.putAll(values());
         return adminClientProps;
     }
 }
