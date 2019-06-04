@@ -7,7 +7,7 @@ public class KafkaManager {
     private AdminClient adminClient;
     private Consumer consumer;
 
-    public KafkaManager(KafkaConfig kafkaConfig) {
+    public KafkaManager(KafkaConsumerConfig kafkaConsumerConfig) {
 
     }
 }
