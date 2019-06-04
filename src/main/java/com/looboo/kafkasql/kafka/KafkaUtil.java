@@ -9,6 +9,11 @@ import java.util.concurrent.Future;
 public class KafkaUtil implements IKafkaUtil {
 
     @Override
+    public List<String> listTopics() {
+        return null;
+    }
+
+    @Override
     public Future<List<ConsumerRecord>> poll(String topic, List<Integer> partitions) {
         return null;
     }
@@ -45,11 +50,6 @@ public class KafkaUtil implements IKafkaUtil {
 
     @Override
     public List<Pair<String, Integer>> listConsumerOffset(String topic, String consumerName) {
-        return null;
-    }
-
-    @Override
-    public List<String> listTopics() {
         return null;
     }
 

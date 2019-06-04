@@ -1,16 +1,11 @@
 package com.looboo.kafkasql.kafka;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import java.util.Properties;
 
 import static org.junit.Assert.fail;
 
 public class KafkaMockServer {
     static KafkaLocal kafka;
-
-    @BeforeClass
     public static void startKafka(){
         Properties kafkaProperties = new Properties();
         Properties zkProperties = new Properties();
@@ -28,13 +23,5 @@ public class KafkaMockServer {
             fail("Error running local Kafka broker");
             e.printStackTrace(System.out);
         }
-
-        //do other things
     }
-
-    @Test
-    public void testSomething() {
-        int a = 0;
-    }
-
 }

@@ -1,11 +1,14 @@
 grammar KafkaSql;
 
-selectStatement : SELECT offsetStatement
+selectStatement : SELECT topicStatement
+    | SELECT offsetStatement
     | SELECT partitionsStatement
     | SELECT consumersStatement
     | SELECT consumerOffsetStatement
     | SELECT querySpecification
     ;
+
+topicStatement : TOPICS ;
 
 offsetStatement : OFFSETS '(' ID ('.' NUMBER (',' SPACE* NUMBER)*)? ')';
 
@@ -53,6 +56,7 @@ PARTITION:              'PARTITION';
 TIMESTAMP:              'TIMESTAMP';
 OFFSET:                 'OFFSET';
 
+TOPICS:                 'TOPICS';
 OFFSETS:                'OFFSETS';
 PARTITIONS:             'PARTITIONS';
 CONSUMERS:              'CONSUMERS';

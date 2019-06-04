@@ -12,6 +12,7 @@ import java.util.List;
 public class SyntaxTest extends TestBase {
 
     private List<String> sqls = Arrays.asList(
+            "select topics",
             "select * from topic",
             "select * from topic where partition = 0",
             "select * from topic where partition in (0,1,2,3)",

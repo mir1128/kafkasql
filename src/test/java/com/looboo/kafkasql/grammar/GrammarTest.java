@@ -19,6 +19,15 @@ public class GrammarTest extends TestBase {
 //        Assert.assertEquals(s, "(querySpecification * FROM TOPIC)");
 //    }
 
+
+    @Test
+    public void test_tpoicStatement() throws IOException {
+        KafkaSqlParser parser = buildParser("topics".toUpperCase());
+        ParseTree tree = parser.topicStatement();
+        Assert.assertFalse(hasErrorNode(tree));
+        System.out.println(tree.toStringTree(parser));
+    }
+
     @Test
     public void test_offsetStatement() throws IOException {
         KafkaSqlParser parser = buildParser("offsets(topic)".toUpperCase());
