@@ -75,4 +75,4 @@ ID:                     ID_LITERAL;
 SPACE:                  ' ';
 NUMBER:                 [0-9]+;
 CHARS:                  '\'' [a-zA-Z0-9]+ '\'';
-fragment ID_LITERAL:    [A-Z_$0-9]*?[A-Z_$]+?[A-Z_$0-9]*;
+fragment ID_LITERAL:    [A-Z_$0-9-]*?[A-Z_$-]+?[A-Z_$0-9-]*;

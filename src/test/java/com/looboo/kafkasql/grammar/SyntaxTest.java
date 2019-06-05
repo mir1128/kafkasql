@@ -1,4 +1,4 @@
-package com.looboo.kafkasql.kafka;
+package com.looboo.kafkasql.grammar;
 
 import com.looboo.kafkasql.grammar.TestBase;
 import com.looboo.kafkasql.parser.KafkaSqlParser;

@@ -1,4 +1,7 @@
 
+//topics;
+select topics;
+
 //message
 select * from topic;
 select * from topic where partition = 0;
