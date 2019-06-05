@@ -9,7 +9,6 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -21,6 +20,14 @@ public class KafkaUtil implements IKafkaUtil {
     public KafkaUtil(KafkaConsumerConfig kafkaConsumerConfig) {
         adminClient = AdminClient.create(kafkaConsumerConfig.getAdminClientProperties());
         consumer = new KafkaConsumer(kafkaConsumerConfig.getConsumerProperties());
+    }
+
+    public AdminClient getAdminClient() {
+        return adminClient;
+    }
+
+    public Consumer getConsumer() {
+        return consumer;
     }
 
     @Override

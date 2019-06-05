@@ -9,47 +9,21 @@ import java.util.Properties;
 
 public class KafkaLocal {
 
-    private KafkaConfig kafkaConfig;
-    private Properties kafkaProperties;
-    private Properties zookeeperConfig;
+    public KafkaServerStartable kafka;
+    public ZooKeeperLocal zookeeper;
 
-    private KafkaServerStartable kafka;
-    private ZooKeeperLocal zookeeper;
+    public KafkaLocal(Properties kafkaProperties) throws IOException, InterruptedException{
+        KafkaConfig kafkaConfig = new KafkaConfig(kafkaProperties);
 
-    public KafkaLocal(Properties kafkaProperties, Properties zkProperties) {
-        this.kafkaProperties = kafkaProperties;
-        this.kafkaConfig = new KafkaConfig(kafkaProperties);
-        this.zookeeperConfig = zkProperties;
-    }
-
-    public void startZookeeper() {
-        //start local zookeeper
-        System.out.println("starting local zookeeper...");
-        try {
-            zookeeper = new ZooKeeperLocal(zookeeperConfig);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("done");
-    }
-
-    public void startKafka() {
         //start local kafka broker
-        KafkaServer server = new KafkaServer(kafkaConfig, null, null, null);
-        System.out.println("starting local kafka broker...");
-        try {
-            server.startup();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("done");
+        kafka = new KafkaServerStartable(kafkaConfig);
     }
 
+    public void start() throws Exception{
+        kafka.startup();
+    }
 
     public void stop(){
-        //stop kafka broker
-        System.out.println("stopping kafka...");
         kafka.shutdown();
-        System.out.println("done");
     }
 }

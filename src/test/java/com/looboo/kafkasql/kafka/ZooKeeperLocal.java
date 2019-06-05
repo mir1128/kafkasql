@@ -4,15 +4,14 @@ import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.server.ZooKeeperServerMain;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
 public class ZooKeeperLocal {
 
-    ZooKeeperServerMain zooKeeperServer;
+    private ZooKeeperServerMain zooKeeperServer;
 
-    public ZooKeeperLocal(Properties zkProperties) throws FileNotFoundException, IOException{
+    public ZooKeeperLocal(Properties zkProperties) throws IOException{
         QuorumPeerConfig quorumConfiguration = new QuorumPeerConfig();
         try {
             quorumConfiguration.parseProperties(zkProperties);
@@ -24,13 +23,11 @@ public class ZooKeeperLocal {
         final ServerConfig configuration = new ServerConfig();
         configuration.readFrom(quorumConfiguration);
 
-
         new Thread(() -> {
             try {
                 zooKeeperServer.runFromConfig(configuration);
             } catch (IOException e) {
-                System.out.println("ZooKeeper Failed");
-                e.printStackTrace(System.err);
+                System.out.println("Zookeeper startup failed." + e.getLocalizedMessage());
             }
         }).start();
     }

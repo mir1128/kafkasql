@@ -31,3 +31,4 @@ HELP.md
 *.class
 *.interp
 *.tokens
+target/
