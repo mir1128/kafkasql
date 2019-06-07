@@ -15,13 +15,9 @@ import java.util.Properties;
 
 public class KafkaConsumerConfig extends AbstractConfig {
 
-    private static final Validator NON_EMPTY_LIST_VALIDATOR = new ConfigDef.Validator() {
-        @Override
-        @SuppressWarnings("unchecked")
-        public void ensureValid(String name, Object value) {
-            if (((List<String>) value).isEmpty()) {
-                throw new ConfigException("At least one bootstrap server must be configured in " + name);
-            }
+    private static final Validator NON_EMPTY_LIST_VALIDATOR = (name, value) -> {
+        if (((List<String>) value).isEmpty()) {
+            throw new ConfigException("At least one bootstrap server must be configured in " + name);
         }
     };
 

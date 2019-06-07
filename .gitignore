@@ -32,3 +32,4 @@ HELP.md
 *.interp
 *.tokens
 target/
+*.log
