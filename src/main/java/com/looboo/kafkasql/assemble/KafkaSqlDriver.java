@@ -1,6 +1,5 @@
 package com.looboo.kafkasql.assemble;
 
-import com.looboo.kafkasql.kafka.KafkaConsumerConfig;
 import com.looboo.kafkasql.kafka.KafkaUtil;
 import com.looboo.kafkasql.parser.KafkaSqlLexer;
 import com.looboo.kafkasql.parser.KafkaSqlParser;
@@ -11,13 +10,16 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.HashMap;
 
 @Slf4j
 public class KafkaSqlDriver {
     private final String SELECT_TOKEN = KafkaSqlLexer.VOCABULARY.getSymbolicName(KafkaSqlLexer.SELECT);
 
-    private KafkaUtil kafkaUtil = new KafkaUtil(new KafkaConsumerConfig(new HashMap<>()));
+    private KafkaUtil kafkaUtil;
+
+    public KafkaSqlDriver(KafkaUtil kafkaUtil) {
+        this.kafkaUtil = kafkaUtil;
+    }
 
     public void parsing(String sql) {
         log.info("sql is {}", sql);

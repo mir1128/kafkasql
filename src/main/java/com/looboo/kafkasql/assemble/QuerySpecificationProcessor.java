@@ -28,6 +28,7 @@ public class QuerySpecificationProcessor implements Processor {
         selectContent = tree.getChild(0).getText();
         topicName = tree.getChild(2).getText();
 
+        log.info("[Query Specification Processor] query topic is {}, select content is {}", topicName, selectContent);
         if (!kafkaUtil.listTopics().contains(topicName)) {
             log.warn("topic {} is not exist", topicName);
         }

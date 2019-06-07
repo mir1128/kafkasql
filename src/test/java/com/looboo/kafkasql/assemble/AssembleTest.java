@@ -1,18 +1,14 @@
 package com.looboo.kafkasql.assemble;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
+import com.looboo.kafkasql.kafka.KafkaTestBase;
 import org.junit.Test;
 
-public class AssembleTest {
-
-    @BeforeClass
-    public void setUp() throws Exception {
-
-    }
+public class AssembleTest extends KafkaTestBase {
 
     @Test
     public void test_select_star_from_topic() {
-        KafkaSqlDriver driver = new KafkaSqlDriver();
+        KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
+
+        driver.parsing("select * from test-topic-1");
     }
 }
