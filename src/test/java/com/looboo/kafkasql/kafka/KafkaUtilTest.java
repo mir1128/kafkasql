@@ -27,7 +27,7 @@ public class KafkaUtilTest extends KafkaTestBase {
                 new NewTopic(topic2, 1, (short) 1));
 
         try {
-            kafkaUtil.getAdminClient().createTopics(newTopics).all().get();
+            kafkaUtil.createTopics(newTopics).all().get();
         } catch (TopicExistsException e) {
             log.info("before list topics ");
         }

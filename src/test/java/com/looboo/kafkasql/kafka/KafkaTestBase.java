@@ -2,6 +2,7 @@ package com.looboo.kafkasql.kafka;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.apache.kafka.clients.producer.KafkaProducer;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
@@ -14,7 +15,9 @@ import java.util.Map;
 public class KafkaTestBase {
 
     protected static KafkaConsumerConfig kafkaConsumerConfig;
+    protected static KafkaProducerConfig kafkaProducerConfig;
     protected static KafkaUtil kafkaUtil;
+    protected static KafkaProducer producer;
 
     @BeforeClass
     public static void startKafkaServer() {
@@ -23,10 +26,16 @@ public class KafkaTestBase {
         KafkaMockServer.getInstance().prepare();
 
         String kafkaServerUrl = KafkaMockServer.getInstance().getKafkaServerUrl();
-        Map<String, String> config = new HashMap<>();
-        config.put("bootstrap.servers", kafkaServerUrl);
+        Map<String, String> consumerConfig = new HashMap<>();
+        consumerConfig.put("bootstrap.servers", kafkaServerUrl);
 
-        kafkaConsumerConfig = new KafkaConsumerConfig(config);
+        kafkaConsumerConfig = new KafkaConsumerConfig(consumerConfig);
+
+        Map<String, String> producerConfig = new HashMap<>();
+        producerConfig.put("bootstrap.servers", kafkaServerUrl);
+        kafkaProducerConfig = new KafkaProducerConfig(producerConfig);
+        producer = new KafkaProducer(kafkaProducerConfig.getProducerProperties());
+
         kafkaUtil = new KafkaUtil(kafkaConsumerConfig);
     }
 
