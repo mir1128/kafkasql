@@ -1,5 +1,7 @@
 package com.looboo.kafkasql.kafka;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.net.BindException;
 import java.net.InetAddress;
@@ -7,6 +9,7 @@ import java.net.UnknownHostException;
 import java.util.Properties;
 import java.util.Random;
 
+@Slf4j
 public class KafkaMockServer {
 
     private static KafkaMockServer instance = new KafkaMockServer();
@@ -34,9 +37,9 @@ public class KafkaMockServer {
             kafkaProperties.load(Class.class.getResourceAsStream("/kafka-server.properties"));
 
         } catch (UnknownHostException e) {
-            System.out.println("Error getting the value of localhost. Proceeding with 'localhost'.");
+            log.info("Error getting the value of localhost. Proceeding with 'localhost'.");
         } catch (IOException e) {
-            System.out.println("load properties failed.");
+            log.info("load properties failed.");
         }
     }
 
@@ -53,7 +56,7 @@ public class KafkaMockServer {
                 } catch (BindException bindEx) {
                 }
             }
-            System.out.println("ZooKeeper instance is successfully started on port " + zkLocalPort);
+            log.info("ZooKeeper instance is successfully started on port " + zkLocalPort);
 
             // override the Zookeeper url.
             kafkaProperties.setProperty("zookeeper.connect", getZkUrl());
@@ -69,11 +72,11 @@ public class KafkaMockServer {
                     // let's try another port.
                 }
             }
-            System.out.println("Kafka Server is successfully started on port " + kafkaLocalPort);
+            log.info("Kafka Server is successfully started on port " + kafkaLocalPort);
             return true;
 
         } catch (Exception e) {
-            System.out.println("Error starting the Kafka Server." + e.getLocalizedMessage());
+            log.info("Error starting the Kafka Server." + e.getLocalizedMessage());
             return false;
         }
     }
@@ -89,13 +92,13 @@ public class KafkaMockServer {
         } catch (InterruptedException e) {
             // ignore
         }
-        System.out.println("Completed the prepare phase.");
+        log.info("Completed the prepare phase.");
     }
 
     public void tearDown() {
-        System.out.println("Shutting down the kafka Server.");
+        log.info("Shutting down the kafka Server.");
         kafkaServer.stop();
-        System.out.println("Completed the tearDown phase.");
+        log.info("Completed the tearDown phase.");
     }
 
     private synchronized int getNextPort() {

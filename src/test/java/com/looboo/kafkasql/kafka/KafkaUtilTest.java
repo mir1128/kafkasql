@@ -1,5 +1,6 @@
 package com.looboo.kafkasql.kafka;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.kafka.clients.admin.CreateTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -17,6 +18,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.StreamSupport;
 
+@Slf4j
 public class KafkaUtilTest {
 
     private static KafkaConsumerConfig kafkaConsumerConfig;
@@ -48,7 +50,7 @@ public class KafkaUtilTest {
             try {
                 FileUtils.deleteDirectory(new File(targetDir));
             } catch (IOException e) {
-                System.out.println(e.getLocalizedMessage());
+                log.info(e.getLocalizedMessage());
             }
             File targetFileDir = new File(targetDir);
             if (!targetFileDir.exists()) {
@@ -58,7 +60,7 @@ public class KafkaUtilTest {
     }
 
     @Test
-    public void name() throws ExecutionException, InterruptedException {
+    public void test_list_topic() throws ExecutionException, InterruptedException {
 
         List<NewTopic> newTopics = Arrays.asList(new NewTopic("test-topic-1", 1, (short) 1),
                 new NewTopic("test-topic-2", 1, (short) 1));
@@ -67,11 +69,11 @@ public class KafkaUtilTest {
         try {
             kafkaUtil.getAdminClient().createTopics(newTopics).all().get();
         } catch (TopicExistsException e) {
-            System.out.println("before list topics ");
+            log.info("before list topics ");
         }
 
-        System.out.println("before list topics ");
-        StreamSupport.stream(kafkaUtil.listTopics().spliterator(), false).forEach(s -> System.out.println(s));
-        System.out.println("after list topics");
+        log.info("before list topics ");
+        StreamSupport.stream(kafkaUtil.listTopics().spliterator(), false).forEach(s -> log.info(s));
+        log.info("after list topics");
     }
 }
