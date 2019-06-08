@@ -20,7 +20,7 @@ consumerOffsetStatement : CONSUMER_OFFSET '(' ID ')';
 
 querySpecification : (STAR | value (',' value)*) FROM ID whereClause ? ;
 
-value : (byteFunction | jsonFunction | strFunction | ID);
+value : (byteFunction | jsonFunction | strFunction );
 
 whereClause: WHERE (equationClause | inCluase | betweenCluase);
 

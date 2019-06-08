@@ -181,19 +181,4 @@ public class GrammarTest extends TestBase {
         System.out.println(tree.toStringTree(parser));
     }
 
-    @Test
-    public void test_querySpecification2() throws IOException {
-        KafkaSqlParser parser = buildParser("xxxx from abc where byte(asdf) = 12121".toUpperCase());
-        ParseTree tree = parser.querySpecification();
-        Assert.assertFalse(hasErrorNode(tree));
-        System.out.println(tree.toStringTree(parser));
-    }
-
-    @Test
-    public void test_selectStatement() throws IOException {
-        KafkaSqlParser parser = buildParser(" select xxxx from abc where byte(asdf) = 12121".toUpperCase());
-        ParseTree tree = parser.selectStatement();
-        Assert.assertFalse(hasErrorNode(tree));
-        System.out.println(tree.toStringTree(parser));
-    }
 }
