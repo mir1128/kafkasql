@@ -16,21 +16,21 @@ SELECT topicStatement
  */
 
 @Slf4j
-public class ProcessorFactory {
+public class SelectProcessorFactory {
 
-    public static Processor createProcessor(ParseTree tree, KafkaUtil util) {
+    public static SelectProcessor createProcessor(ParseTree tree, KafkaUtil util) {
         if (tree instanceof KafkaSqlParser.OffsetStatementContext) {
-            return new OffsetStatementProcessor(util);
+            return new OffsetStatementSelectProcessor(util);
         } else if (tree instanceof KafkaSqlParser.QuerySpecificationContext) {
-            return new QuerySpecificationProcessor(util);
-        } else if (tree instanceof TopicStatementProcessor) {
-            return new TopicStatementProcessor(util);
+            return new QuerySpecificationSelectProcessor(util);
+        } else if (tree instanceof TopicStatementSelectProcessor) {
+            return new TopicStatementSelectProcessor(util);
         } else if (tree instanceof KafkaSqlParser.PartitionsStatementContext) {
-            return new PartitionStatementProcessor(util);
+            return new PartitionStatementSelectProcessor(util);
         } else if (tree instanceof KafkaSqlParser.ConsumersStatementContext) {
-            return new ConsumerStatementProcessor(util);
+            return new ConsumerStatementSelectProcessor(util);
         } else if (tree instanceof KafkaSqlParser.ConsumerOffsetStatementContext) {
-            return new ConsumerOffsetStatementProcessor(util);
+            return new ConsumerOffsetStatementSelectProcessor(util);
         } else {
 //            log.error("[error] not a valid statement");
             return null;

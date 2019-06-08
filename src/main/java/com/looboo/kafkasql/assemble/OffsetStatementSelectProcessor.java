@@ -4,9 +4,9 @@ import com.looboo.kafkasql.kafka.KafkaUtil;
 import com.looboo.kafkasql.parser.KafkaSqlParser;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-public class OffsetStatementProcessor implements Processor {
+public class OffsetStatementSelectProcessor implements SelectProcessor {
 
-    public OffsetStatementProcessor(KafkaUtil util) {
+    public OffsetStatementSelectProcessor(KafkaUtil util) {
 
     }
 

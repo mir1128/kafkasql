@@ -35,8 +35,8 @@ public class KafkaSqlDriver {
     }
 
     private void processSubStatement(ParseTree tree) {
-        Processor processor = ProcessorFactory.createProcessor(tree, kafkaUtil);
-        processor.process(tree);
+        SelectProcessor selectProcessor = SelectProcessorFactory.createProcessor(tree, kafkaUtil);
+        selectProcessor.process(tree);
     }
 
     private KafkaSqlParser buildParser(String sql)  {

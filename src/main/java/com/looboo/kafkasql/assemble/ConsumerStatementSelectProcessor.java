@@ -3,8 +3,8 @@ package com.looboo.kafkasql.assemble;
 import com.looboo.kafkasql.kafka.KafkaUtil;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-public class PartitionStatementProcessor implements Processor {
-    public PartitionStatementProcessor(KafkaUtil util) {
+public class ConsumerStatementSelectProcessor implements SelectProcessor {
+    public ConsumerStatementSelectProcessor(KafkaUtil util) {
 
     }
 

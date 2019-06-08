@@ -14,4 +14,14 @@ public class AssembleTest extends KafkaTestBase {
 
         producer.close();
     }
+
+    @Test
+    public void test_select_star_from_topic_where_partition_equal_0() {
+
+        KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
+
+        driver.parsing("select * from test-topic-1 where partition = 0");
+
+        producer.close();
+    }
 }
