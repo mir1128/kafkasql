@@ -31,22 +31,25 @@ public class AssembleTest extends KafkaTestBase {
     public void test_select_star_from_topic_where_timestamp_equal_xxx() {
         KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
 
-        List<RecordMetadata> metadata = randomRecordMetadataN(4);
-        String timestamps = metadata.stream()
-                .map(m -> String.valueOf(m.timestamp()))
-                .collect(Collectors.joining(","));
+        RecordMetadata recordMetadata = randomRecordMetadata();
 
+        log.info("test_select_star_from_topic_where_timestamp_equal_xxx timestamp {}", recordMetadata.timestamp());
 
-        log.info("test_select_star_from_topic_where_timestamp_equal_xxx timestamp {}", timestamps);
-
-        driver.parsing(String.format("select * from test-topic-1 where timestamp in (%s)", timestamps));
+        driver.parsing(String.format("select * from test-topic-1 where timestamp = %s", recordMetadata.timestamp()));
     }
 
     @Test
     public void test_select_star_from_topic_where_timestamp_in_xxxx() {
         KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
 
+        List<RecordMetadata> metadata = randomRecordMetadataN(4);
+        String timestamps = metadata.stream()
+                .map(m -> String.valueOf(m.timestamp()))
+                .collect(Collectors.joining(","));
 
+        log.info("test_select_star_from_topic_where_timestamp_equal_xxx timestamp = {}", timestamps);
+
+        driver.parsing(String.format("select * from test-topic-1 where timestamp in (%s)", timestamps));
     }
 
     @Test
@@ -55,5 +58,26 @@ public class AssembleTest extends KafkaTestBase {
         KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
 
         driver.parsing("select * from test-topic-1 where partition in (0, 1) ");
+    }
+
+    @Test
+    public void test_select_star_from_topic_where_partition_between_xxx_and_xxx() {
+        KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
+
+        driver.parsing(String.format("select * from test-topic-1 where partition between (0, 1)"));
+    }
+
+    @Test
+    public void test_select_star_from_topic_where_timestamp_between_xxx_and_xxx() {
+        KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
+
+        List<RecordMetadata> metadata = randomRecordMetadataN(2);
+
+        long from = Math.min(metadata.get(0).timestamp(), metadata.get(1).timestamp());
+        long to = Math.max(metadata.get(0).timestamp(), metadata.get(1).timestamp());
+
+        log.info("test_select_star_from_topic_where_timestamp_between_xxx_and_xxx timestamp between {} and {}", from, to);
+
+        driver.parsing(String.format("select * from test-topic-1 where timestamp between (%s, %s)", from, to));
     }
 }

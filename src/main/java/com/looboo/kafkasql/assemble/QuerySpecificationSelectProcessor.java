@@ -1,5 +1,6 @@
 package com.looboo.kafkasql.assemble;
 
+import com.looboo.kafkasql.assemble.filter.BetweenFilter;
 import com.looboo.kafkasql.assemble.filter.EqualFilter;
 import com.looboo.kafkasql.assemble.filter.Filter;
 import com.looboo.kafkasql.assemble.filter.InFilter;
@@ -7,6 +8,7 @@ import com.looboo.kafkasql.assemble.filter.PartitionCompose;
 import com.looboo.kafkasql.kafka.KafkaUtil;
 import com.looboo.kafkasql.parser.KafkaSqlParser;
 import lombok.extern.slf4j.Slf4j;
+import org.antlr.v4.runtime.misc.Pair;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.TopicPartition;
@@ -70,32 +72,54 @@ public class QuerySpecificationSelectProcessor implements SelectProcessor {
         }
 
         List<Filter> filters = new ArrayList<>();
-
         ParseTree whereClauseContent = whereClause.getChild(1);
         if (whereClauseContent instanceof KafkaSqlParser.EquationClauseContext) {
-            ParseTree equationClauseTree = whereClauseContent.getChild(0);
-
-            if (equationClauseTree instanceof KafkaSqlParser.PartitionsEquslCluaseContext) {
-                String variable = equationClauseTree.getChild(2).getText();
-                filters.add(new EqualFilter(variable, PARTITION, null));
-            } else if (equationClauseTree instanceof KafkaSqlParser.TimestampEquslCluaseContext) {
-                String variable = equationClauseTree.getChild(2).getText();
-                filters.add(new EqualFilter(variable, TIMESTAMP, null));
-            } else if (equationClauseTree instanceof KafkaSqlParser.ValueEqualClauseContext ) {
-
-            } else {
-                log.warn("{} is not a valid equation clause", equationClauseTree.getText());
-            }
-
+            filters = equstionCluse(whereClauseContent);
         } else if (whereClauseContent instanceof KafkaSqlParser.InCluaseContext) {
-            String variable = whereClauseContent.getChild(0).getText();
-            List<String> parameters = new ArrayList<>();
-            for (int i = 3; i < whereClauseContent.getChildCount(); i += 2) {
-                parameters.add(whereClauseContent.getChild(i).getText());
-            }
-            filters.add(new InFilter(parameters, variable, null));
+            filters = inCluase(whereClauseContent);
+        } else if (whereClauseContent instanceof KafkaSqlParser.BetweenCluaseContext) {
+            filters = betweenClause(whereClauseContent);
         } else {
 
+        }
+        return filters;
+    }
+
+    private List<Filter> betweenClause(ParseTree whereClauseContent) {
+        List<Filter> filters = new ArrayList<>();
+        String variable = whereClauseContent.getChild(0).getText();
+        String from = whereClauseContent.getChild(3).getText();
+        String to = whereClauseContent.getChild(5).getText();
+
+        filters.add(new BetweenFilter(new Pair<String, String>(from, to), variable, null));
+        return filters;
+    }
+
+    private List<Filter> inCluase(ParseTree whereClauseContent) {
+        List<Filter> filters = new ArrayList<>();
+        String variable = whereClauseContent.getChild(0).getText();
+        List<String> parameters = new ArrayList<>();
+        for (int i = 3; i < whereClauseContent.getChildCount(); i += 2) {
+            parameters.add(whereClauseContent.getChild(i).getText());
+        }
+        filters.add(new InFilter(parameters, variable, null));
+        return filters;
+    }
+
+    private List<Filter> equstionCluse(ParseTree whereClauseContent) {
+        List<Filter> filters = new ArrayList<>();
+        ParseTree equationClauseTree = whereClauseContent.getChild(0);
+
+        if (equationClauseTree instanceof KafkaSqlParser.PartitionsEquslCluaseContext) {
+            String variable = equationClauseTree.getChild(2).getText();
+            filters.add(new EqualFilter(variable, PARTITION, null));
+        } else if (equationClauseTree instanceof KafkaSqlParser.TimestampEquslCluaseContext) {
+            String variable = equationClauseTree.getChild(2).getText();
+            filters.add(new EqualFilter(variable, TIMESTAMP, null));
+        } else if (equationClauseTree instanceof KafkaSqlParser.ValueEqualClauseContext) {
+
+        } else {
+            log.warn("{} is not a valid equation clause", equationClauseTree.getText());
         }
         return filters;
     }
