@@ -12,15 +12,14 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.TopicPartition;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.looboo.kafkasql.assemble.Constant.FROM;
+import static com.looboo.kafkasql.assemble.Constant.PARTITION;
 import static com.looboo.kafkasql.assemble.Constant.TIMESTAMP;
 import static com.looboo.kafkasql.assemble.Constant.WHERE;
-import static com.looboo.kafkasql.assemble.Constant.PARTITION;
 
 @Slf4j
 public class QuerySpecificationSelectProcessor implements SelectProcessor {
