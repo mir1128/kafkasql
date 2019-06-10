@@ -20,7 +20,7 @@ public class AssembleTest extends KafkaTestBase {
 
         KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
 
-        driver.parsing("select * from test-topic-1 where str(key) = 'aaaa'");
+        driver.parsing("select * from test-topic-1 where partition = 0");
 
         producer.close();
     }

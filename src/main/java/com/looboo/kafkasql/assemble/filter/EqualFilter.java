@@ -9,8 +9,10 @@ public class EqualFilter extends AbstractFilter {
     @Override
     public boolean predicate(Object object) {
         if (isPartition() || isTimestamp()) {
-            return operand.equals(object);
-        } else if (isFunction()){
+            String operandString = (String) this.operand;
+            if (operandString == null || operandString.isEmpty()) return true;
+            return Integer.valueOf(operandString).equals(object);
+        } else if (isFunction()) {
 
         }
         return true;

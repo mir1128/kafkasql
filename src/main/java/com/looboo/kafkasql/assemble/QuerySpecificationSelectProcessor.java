@@ -18,7 +18,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.looboo.kafkasql.assemble.Constant.FROM;
+import static com.looboo.kafkasql.assemble.Constant.TIMESTAMP;
 import static com.looboo.kafkasql.assemble.Constant.WHERE;
+import static com.looboo.kafkasql.assemble.Constant.PARTITION;
 
 @Slf4j
 public class QuerySpecificationSelectProcessor implements SelectProcessor {
@@ -68,8 +70,23 @@ public class QuerySpecificationSelectProcessor implements SelectProcessor {
             log.warn("not a valid where clause");
         }
 
+        List<Filter> filters = new ArrayList<>();
+
         ParseTree whereClauseContent = whereClause.getChild(1);
         if (whereClauseContent instanceof KafkaSqlParser.EquationClauseContext) {
+            ParseTree equationClauseTree = whereClauseContent.getChild(0);
+
+            if (equationClauseTree instanceof KafkaSqlParser.PartitionsEquslCluaseContext) {
+                String variable = equationClauseTree.getChild(2).getText();
+                filters.add(new EqualFilter(variable, PARTITION, null));
+            } else if (equationClauseTree instanceof KafkaSqlParser.TimestampEquslCluaseContext) {
+                String variable = equationClauseTree.getChild(2).getText();
+                filters.add(new EqualFilter(variable, TIMESTAMP, null));
+            } else if (equationClauseTree instanceof KafkaSqlParser.ValueEqualClauseContext ) {
+
+            } else {
+                log.warn("{} is not a valid equation clause", equationClauseTree.getText());
+            }
 
         } else if (whereClauseContent instanceof KafkaSqlParser.InCluaseContext) {
             String variable = whereClauseContent.getChild(0).getText();
@@ -77,11 +94,11 @@ public class QuerySpecificationSelectProcessor implements SelectProcessor {
             for (int i = 3; i < whereClauseContent.getChildCount(); i += 2) {
                 parameters.add(whereClauseContent.getChild(i).getText());
             }
-            return Arrays.asList(new InFilter(parameters, variable, null));
+            filters.add(new InFilter(parameters, variable, null));
         } else {
 
         }
-        return null;
+        return filters;
     }
 
     private String selectMessages(String topicName, Map<TopicPartition, Long> offset, List<Filter> filters) {
