@@ -4,9 +4,9 @@ import java.util.List;
 
 public class PartitionCompose implements Filter {
 
-    List<EqualFilter> filters;
+    List<Filter> filters;
 
-    public PartitionCompose(List<EqualFilter> filters) {
+    public PartitionCompose(List<Filter> filters) {
         this.filters = filters;
     }
 

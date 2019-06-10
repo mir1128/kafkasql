@@ -1,6 +1,8 @@
 package com.looboo.kafkasql.assemble;
 
 import com.looboo.kafkasql.assemble.filter.EqualFilter;
+import com.looboo.kafkasql.assemble.filter.Filter;
+import com.looboo.kafkasql.assemble.filter.InFilter;
 import com.looboo.kafkasql.assemble.filter.PartitionCompose;
 import com.looboo.kafkasql.kafka.KafkaUtil;
 import com.looboo.kafkasql.parser.KafkaSqlParser;
@@ -10,6 +12,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.TopicPartition;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -49,12 +52,12 @@ public class QuerySpecificationSelectProcessor implements SelectProcessor {
         }
 
         Map<TopicPartition, Long> offset = kafkaUtil.getOffset(topic);
-        List<EqualFilter> equalFilters = generateFilters(tree);
+        List<Filter> equalFilters = generateFilters(tree);
 
         selectMessages(topicName, offset, equalFilters);
     }
 
-    private List<EqualFilter> generateFilters(ParseTree tree) {
+    private List<Filter> generateFilters(ParseTree tree) {
         if (tree.getChildCount() < 3) {
             return new ArrayList<>();
         }
@@ -69,17 +72,24 @@ public class QuerySpecificationSelectProcessor implements SelectProcessor {
         if (whereClauseContent instanceof KafkaSqlParser.EquationClauseContext) {
 
         } else if (whereClauseContent instanceof KafkaSqlParser.InCluaseContext) {
-
+            String variable = whereClauseContent.getChild(0).getText();
+            List<String> parameters = new ArrayList<>();
+            for (int i = 3; i < whereClauseContent.getChildCount(); i += 2) {
+                parameters.add(whereClauseContent.getChild(i).getText());
+            }
+            return Arrays.asList(new InFilter(parameters, variable, null));
         } else {
 
         }
         return null;
     }
 
-    private String selectMessages(String topicName, Map<TopicPartition, Long> offset, List<EqualFilter> equalFilters) {
+    private String selectMessages(String topicName, Map<TopicPartition, Long> offset, List<Filter> filters) {
+
+        List<Filter> partitionFilters = filters.stream().filter(f -> f.isPartition()).collect(Collectors.toList());
 
         Map<TopicPartition, Long> offsetReserved = offset.entrySet().stream()
-                .filter(e -> new PartitionCompose(equalFilters).predicate(e.getKey().partition()))
+                .filter(e -> new PartitionCompose(partitionFilters).predicate(e.getKey().partition()))
                 .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
 
         Map<TopicPartition, List<ConsumerRecord>> result = kafkaUtil.poll(topicName, offsetReserved);

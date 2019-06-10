@@ -11,7 +11,11 @@ public class InFilter extends AbstractFilter {
     @Override
     public boolean predicate(Object object) {
         if (isPartition() || isTimestamp()) {
-            return ((List<Integer>)operand).stream().anyMatch(o -> o.equals(object));
+            return ((List<String>)operand).stream()
+                    .map(o -> Integer.valueOf(o))
+                    .filter(o -> o.equals(object))
+                    .findAny()
+                    .isPresent();
         } else {
 
         }
