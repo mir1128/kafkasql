@@ -20,12 +20,12 @@ consumerOffsetStatement : CONSUMER_OFFSET '(' ID ')';
 
 querySpecification : (STAR | value (',' value)*) FROM ID whereClause ? ;
 
-value : (byteFunction | jsonFunction | strFunction );
+value : (byteFunction | strFunction );
 
 whereClause: WHERE (equationClause | inCluase | betweenCluase);
 
-inCluase : (PARTITION | TIMESTAMP | OFFSET) IN '(' (NUMBER (',' SPACE* NUMBER)* | CHARS  (',' SPACE*  CHARS )*) ')' ;
-betweenCluase: (PARTITION | TIMESTAMP | OFFSET)BETWEEN '(' NUMBER ',' NUMBER ')';
+inCluase : (PARTITION | TIMESTAMP | value) IN '(' (NUMBER (',' SPACE* NUMBER)* | CHARS  (',' SPACE*  CHARS )*) ')' ;
+betweenCluase: (PARTITION | TIMESTAMP )BETWEEN '(' NUMBER ',' NUMBER ')';
 
 equationClause : partitionsEquslCluase
     | timestampEquslCluase
@@ -37,7 +37,6 @@ timestampEquslCluase: TIMESTAMP EQUAL NUMBER;
 valueEqualClause: value EQUAL (CHARS | NUMBER);
 
 byteFunction: BYTE '(' ID ')';
-jsonFunction: JSON '(' ID ')';
 strFunction: STR '(' ID ')';
 
 numberList: NUMBER (',' SPACE* NUMBER)*;
@@ -63,7 +62,6 @@ CONSUMERS:              'CONSUMERS';
 CONSUMER_OFFSET:        'CONSUMER_OFFSET';
 //
 BYTE:                   'BYTE';
-JSON:                   'JSON';
 STR:                    'STR';
 STAR:                   '*';
 EQUAL:                  '=';

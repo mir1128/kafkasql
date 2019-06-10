@@ -61,10 +61,17 @@ public class AssembleTest extends KafkaTestBase {
     }
 
     @Test
-    public void test_select_star_from_topic_where_partition_between_xxx_and_xxx() {
+    public void test_select_star_from_topic_where_str_key_equal_xxxx() {
         KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
 
-        driver.parsing(String.format("select * from test-topic-1 where partition between (0, 1)"));
+        driver.parsing(String.format("select * from test-topic-1 where str(key) =  '1'"));
+    }
+
+    @Test
+    public void test_select_star_from_topic_where_str_key_in_xxxx() {
+        KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
+
+        driver.parsing(String.format("select * from test-topic-1 where str(key) in ('1', '2', '3')"));
     }
 
     @Test
@@ -79,5 +86,12 @@ public class AssembleTest extends KafkaTestBase {
         log.info("test_select_star_from_topic_where_timestamp_between_xxx_and_xxx timestamp between {} and {}", from, to);
 
         driver.parsing(String.format("select * from test-topic-1 where timestamp between (%s, %s)", from, to));
+    }
+
+    @Test
+    public void test_select_star_from_topic_where_partition_between_xxx_and_xxx() {
+        KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
+
+        driver.parsing(String.format("select * from test-topic-1 where partition between (0, 1)"));
     }
 }

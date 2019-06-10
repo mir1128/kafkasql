@@ -19,10 +19,6 @@ public interface Filter {
         return false;
     }
 
-    default boolean isJson() {
-        return false;
-    }
-
     default boolean isByte() {
         return false;
     }

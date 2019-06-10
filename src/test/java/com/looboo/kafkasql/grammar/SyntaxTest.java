@@ -1,6 +1,5 @@
 package com.looboo.kafkasql.grammar;
 
-import com.looboo.kafkasql.grammar.TestBase;
 import com.looboo.kafkasql.parser.KafkaSqlParser;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Assert;
@@ -22,7 +21,6 @@ public class SyntaxTest extends TestBase {
             "select * from topic where timestamp between(1332232323155, 133223232315212)",
 
             "select byte(key), byte(value) from topic",
-            "select json(key), json(value) from topic",
             "select str(key), str(value) from topic",
 
             "select offsets(topic)",

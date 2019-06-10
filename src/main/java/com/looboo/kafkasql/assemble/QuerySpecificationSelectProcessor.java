@@ -10,6 +10,7 @@ import com.looboo.kafkasql.parser.KafkaSqlParser;
 import lombok.extern.slf4j.Slf4j;
 import org.antlr.v4.runtime.misc.Pair;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.TerminalNode;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.TopicPartition;
 
@@ -74,9 +75,9 @@ public class QuerySpecificationSelectProcessor implements SelectProcessor {
         List<Filter> filters = new ArrayList<>();
         ParseTree whereClauseContent = whereClause.getChild(1);
         if (whereClauseContent instanceof KafkaSqlParser.EquationClauseContext) {
-            filters = equstionCluse(whereClauseContent);
+            filters = equationCluse(whereClauseContent);
         } else if (whereClauseContent instanceof KafkaSqlParser.InCluaseContext) {
-            filters = inCluase(whereClauseContent);
+            filters = inClause(whereClauseContent);
         } else if (whereClauseContent instanceof KafkaSqlParser.BetweenCluaseContext) {
             filters = betweenClause(whereClauseContent);
         } else {
@@ -95,18 +96,34 @@ public class QuerySpecificationSelectProcessor implements SelectProcessor {
         return filters;
     }
 
-    private List<Filter> inCluase(ParseTree whereClauseContent) {
+    private List<Filter> inClause(ParseTree whereClauseContent) {
         List<Filter> filters = new ArrayList<>();
-        String variable = whereClauseContent.getChild(0).getText();
-        List<String> parameters = new ArrayList<>();
-        for (int i = 3; i < whereClauseContent.getChildCount(); i += 2) {
-            parameters.add(whereClauseContent.getChild(i).getText());
+
+        ParseTree tree = whereClauseContent.getChild(0);
+
+        if (tree instanceof TerminalNode) {
+            String variable = tree.getText();
+            List<String> parameters = new ArrayList<>();
+            for (int i = 3; i < whereClauseContent.getChildCount(); i += 2) {
+                parameters.add(whereClauseContent.getChild(i).getText());
+            }
+            filters.add(new InFilter(parameters, variable, null));
+        } else if (tree instanceof KafkaSqlParser.ValueContext) {
+            String function = tree.getChild(0).getChild(0).getText();
+            String field = tree.getChild(0).getChild(2).getText();
+            List<String> parameters = new ArrayList<>();
+            for (int i = 3; i < whereClauseContent.getChildCount(); i += 2) {
+                parameters.add(whereClauseContent.getChild(i).getText());
+            }
+            filters.add(new InFilter(parameters, field, function));
+        } else {
+            log.warn("unsupported node {}", tree.getText());
         }
-        filters.add(new InFilter(parameters, variable, null));
+
         return filters;
     }
 
-    private List<Filter> equstionCluse(ParseTree whereClauseContent) {
+    private List<Filter> equationCluse(ParseTree whereClauseContent) {
         List<Filter> filters = new ArrayList<>();
         ParseTree equationClauseTree = whereClauseContent.getChild(0);
 
@@ -117,7 +134,14 @@ public class QuerySpecificationSelectProcessor implements SelectProcessor {
             String variable = equationClauseTree.getChild(2).getText();
             filters.add(new EqualFilter(variable, TIMESTAMP, null));
         } else if (equationClauseTree instanceof KafkaSqlParser.ValueEqualClauseContext) {
-
+            ParseTree valueContext = equationClauseTree.getChild(0);
+            if (valueContext instanceof KafkaSqlParser.ValueContext) {
+                ParseTree valueFunction = valueContext.getChild(0);
+                String function = valueFunction.getChild(0).getText();
+                String parameter = valueFunction.getChild(2).getText();
+                String value = equationClauseTree.getChild(2).getText();
+                filters.add(new EqualFilter(value, parameter, function));
+            }
         } else {
             log.warn("{} is not a valid equation clause", equationClauseTree.getText());
         }
