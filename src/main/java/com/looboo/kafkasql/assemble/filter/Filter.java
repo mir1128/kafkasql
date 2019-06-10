@@ -3,15 +3,27 @@ package com.looboo.kafkasql.assemble.filter;
 public interface Filter {
     boolean predicate(Object object);
 
-    boolean isPartition();
+    default boolean isPartition() {
+        return false;
+    }
 
-    boolean isTimestamp();
+    default boolean isTimestamp() {
+        return false;
+    }
 
-    boolean isFunction();
+    default boolean isFunction() {
+        return false;
+    }
 
-    boolean isStr();
+    default boolean isStr() {
+        return false;
+    }
 
-    boolean isJson();
+    default boolean isJson() {
+        return false;
+    }
 
-    boolean isByte();
+    default boolean isByte() {
+        return false;
+    }
 }

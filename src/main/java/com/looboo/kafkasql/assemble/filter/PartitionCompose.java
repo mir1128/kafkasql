@@ -15,33 +15,4 @@ public class PartitionCompose implements Filter {
         return filters.stream().allMatch(f -> f.predicate(object));
     }
 
-    @Override
-    public boolean isPartition() {
-        return false;
-    }
-
-    @Override
-    public boolean isTimestamp() {
-        return false;
-    }
-
-    @Override
-    public boolean isFunction() {
-        return false;
-    }
-
-    @Override
-    public boolean isStr() {
-        return false;
-    }
-
-    @Override
-    public boolean isJson() {
-        return false;
-    }
-
-    @Override
-    public boolean isByte() {
-        return false;
-    }
 }
