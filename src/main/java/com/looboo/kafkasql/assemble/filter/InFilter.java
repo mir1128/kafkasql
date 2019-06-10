@@ -1,5 +1,7 @@
 package com.looboo.kafkasql.assemble.filter;
 
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+
 import java.util.List;
 
 public class InFilter extends AbstractFilter {
@@ -10,14 +12,22 @@ public class InFilter extends AbstractFilter {
 
     @Override
     public boolean predicate(Object object) {
-        if (isPartition() || isTimestamp()) {
+        if (isPartition()) {
             return ((List<String>)operand).stream()
                     .map(o -> Integer.valueOf(o))
                     .filter(o -> o.equals(object))
                     .findAny()
                     .isPresent();
-        } else {
+        } else if (isTimestamp()){
+            List<String> operands = (List<String>) this.operand;
 
+            if (object instanceof ConsumerRecord) {
+                ConsumerRecord record = (ConsumerRecord) object;
+                return operands.stream().map(o -> Long.valueOf(o))
+                        .filter(o -> o.equals(record.timestamp()))
+                        .findAny()
+                        .isPresent();
+            }
         }
         return false;
     }

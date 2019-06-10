@@ -3,6 +3,7 @@ package com.looboo.kafkasql.kafka;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
@@ -11,9 +12,12 @@ import org.junit.BeforeClass;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -24,6 +28,8 @@ public class KafkaTestBase {
     protected static KafkaProducerConfig kafkaProducerConfig;
     protected static KafkaUtil kafkaUtil;
     protected static KafkaProducer producer;
+
+    protected static List<RecordMetadata> recordMetadataList = new ArrayList<>();
 
     @BeforeClass
     public static void startKafkaServer() throws ExecutionException, InterruptedException {
@@ -48,8 +54,9 @@ public class KafkaTestBase {
     }
 
     @AfterClass
-    public static void stopKafkaServer() throws IOException {
+    public static void stopKafkaServer() {
         KafkaMockServer.getInstance().tearDown();
+        producer.close();
     }
 
     private static void deleteTargetDir() {
@@ -75,7 +82,28 @@ public class KafkaTestBase {
 
         for (int i = 0; i < 100; ++i) {
             Future<RecordMetadata> send = producer.send(new ProducerRecord(topicName, Integer.toString(i), Integer.toString(i)));
-            send.get();
+            recordMetadataList.add(send.get());
         }
     }
+
+    protected static RecordMetadata randomRecordMetadata() {
+        if (recordMetadataList.isEmpty()) return null;
+        Random random = new Random();
+        int i = random.nextInt(recordMetadataList.size());
+        return recordMetadataList.get(i);
+    }
+
+    protected static List<RecordMetadata> randomRecordMetadataN(int n ) {
+        ArrayList<RecordMetadata> result = new ArrayList<>();
+
+        if (n <= 0 || recordMetadataList.isEmpty()) return result;
+
+        Random random = new Random();
+        for (int i = 0; i < n; ++i) {
+            int i1 = random.nextInt(recordMetadataList.size());
+            result.add(recordMetadataList.get(i1));
+        }
+        return result;
+    }
 }
+

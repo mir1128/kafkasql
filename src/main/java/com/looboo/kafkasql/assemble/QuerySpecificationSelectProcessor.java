@@ -60,7 +60,7 @@ public class QuerySpecificationSelectProcessor implements SelectProcessor {
     }
 
     private List<Filter> generateFilters(ParseTree tree) {
-        if (tree.getChildCount() < 3) {
+        if (tree.getChildCount() < 4) {
             return new ArrayList<>();
         }
 
@@ -111,18 +111,35 @@ public class QuerySpecificationSelectProcessor implements SelectProcessor {
 
         Map<TopicPartition, List<ConsumerRecord>> result = kafkaUtil.poll(topicName, offsetReserved);
 
+        result = filterResults(result, filters);
+
         String resultString = formatResult(result);
         return resultString;
+    }
+
+    private Map<TopicPartition, List<ConsumerRecord>> filterResults(Map<TopicPartition, List<ConsumerRecord>> result, List<Filter> filters) {
+        List<Filter> filtersExcludePartition = filters.stream().filter(f -> !f.isPartition()).collect(Collectors.toList());
+
+        for (Map.Entry<TopicPartition, List<ConsumerRecord>> recordEntity : result.entrySet()) {
+            List<ConsumerRecord> filtered = recordEntity.getValue().stream()
+                    .filter(record -> new PartitionCompose(filtersExcludePartition).predicate(record))
+                    .collect(Collectors.toList());
+            result.put(recordEntity.getKey(), filtered);
+        }
+        return result;
     }
 
     private String formatResult(Map<TopicPartition, List<ConsumerRecord>> result) {
         StringBuilder sb = new StringBuilder();
         sb.append("-------------------------------------------\n");
         for (TopicPartition topicPartition : result.keySet()) {
-            sb.append("topic: " + topicPartition.topic() + "\tpartition: " + topicPartition.partition() + "\n");
+            sb.append("topic: " + topicPartition.topic() + "\t\tpartition: " + topicPartition.partition() + "\t\t\t\ttimestamp\n");
             List<ConsumerRecord> records = result.get(topicPartition);
             for (ConsumerRecord record : records) {
-                sb.append("key : " + new String((byte[]) record.key()) + "\tvalue: " + new String((byte[]) record.value())).append("\n");
+                sb.append("key : " + new String((byte[]) record.key()))
+                        .append("\t\t\t\tvalue: " + new String((byte[]) record.value()))
+                        .append("\t\t\t\ttimestamp: " + record.timestamp())
+                        .append("\n");
             }
             sb.append("-------------------------------------------\n");
         }
