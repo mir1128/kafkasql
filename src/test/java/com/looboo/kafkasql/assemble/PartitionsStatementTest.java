@@ -10,7 +10,7 @@ public class PartitionsStatementTest extends KafkaTestBase {
 
         KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
 
-        driver.parsing("select partitions`(test-topic-1)");
+        driver.parsing("select partitions (test-topic-1)");
     }
 
 }
