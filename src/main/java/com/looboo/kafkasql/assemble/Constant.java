@@ -1,6 +1,7 @@
 package com.looboo.kafkasql.assemble;
 
 import com.looboo.kafkasql.parser.KafkaSqlLexer;
+import com.looboo.kafkasql.parser.KafkaSqlParser;
 
 public class Constant {
     public final static String STAR = KafkaSqlLexer.VOCABULARY.getSymbolicName(KafkaSqlLexer.STAR);
@@ -10,4 +11,5 @@ public class Constant {
     public final static String TIMESTAMP = KafkaSqlLexer.VOCABULARY.getSymbolicName(KafkaSqlLexer.TIMESTAMP);
     public final static String STR = KafkaSqlLexer.VOCABULARY.getSymbolicName(KafkaSqlLexer.STR);
     public final static String BYTE = KafkaSqlLexer.VOCABULARY.getSymbolicName(KafkaSqlLexer.BYTE);
+    public final static String OFFSETS = KafkaSqlParser.VOCABULARY.getSymbolicName(KafkaSqlLexer.OFFSETS);
 }
