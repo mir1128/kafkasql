@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class AssembleTest extends KafkaTestBase {
+public class SelectContentTest extends KafkaTestBase {
 
     @Test
     public void test_select_star_from_topic() {
