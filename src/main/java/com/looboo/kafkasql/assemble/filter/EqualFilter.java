@@ -43,10 +43,10 @@ public class EqualFilter extends AbstractFilter {
             } else if (isByte()) {
                 if (field.equalsIgnoreCase("key")) {
                     byte[] keyArray = new ByteArrayDeserializer().deserialize("", (byte[]) record.key());
-                    return Arrays.equals(keyArray, (byte[]) operand);
+                    return Arrays.equals(keyArray, ((String) operand).getBytes());
                 } else if (field.equalsIgnoreCase("value")) {
                     byte[] valueArray = new ByteArrayDeserializer().deserialize("", (byte[]) record.key());
-                    return Arrays.equals(valueArray, (byte[]) operand);
+                    return Arrays.equals(valueArray, ((String) operand).getBytes());
                 } else {
                     log.warn("unsupported field: {}", field);
                 }

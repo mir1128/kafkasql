@@ -89,6 +89,20 @@ public class AssembleTest extends KafkaTestBase {
     }
 
     @Test
+    public void test_select_star_from_topic_where_byte_key_equal_xxxx() {
+        KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
+
+        driver.parsing(String.format("select * from test-topic-1 where byte(key) = 12"));   //byte [] 49, 50
+    }
+
+    @Test
+    public void test_select_star_from_topic_where_byte_key_in_xxxx() {
+        KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
+
+        driver.parsing(String.format("select * from test-topic-1 where byte(key) in (12, 13,14,18,19)"));
+    }
+
+    @Test
     public void test_select_star_from_topic_where_timestamp_between_xxx_and_xxx() {
         KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
 

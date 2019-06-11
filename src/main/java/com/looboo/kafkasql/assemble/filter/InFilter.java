@@ -58,10 +58,10 @@ public class InFilter extends AbstractFilter {
             } else if (isByte()) {
                 if (field.equalsIgnoreCase("key")) {
                     byte[] keyArray = new ByteArrayDeserializer().deserialize("", (byte[]) record.key());
-                    ((List<byte[]>)operand).stream().anyMatch(array -> Arrays.equals(keyArray, array));
+                    return ((List<String>)operand).stream().map(o -> o.getBytes()).filter(array -> Arrays.equals(keyArray, array)).findAny().isPresent();
                 } else if (field.equalsIgnoreCase("value")) {
                     byte[] valueArray = new ByteArrayDeserializer().deserialize("", (byte[]) record.key());
-                    ((List<byte[]>)operand).stream().anyMatch(array -> Arrays.equals(valueArray, array));
+                    return ((List<String>)operand).stream().map(o -> o.getBytes()).filter(array -> Arrays.equals(valueArray, array)).findAny().isPresent();
                 } else {
                     log.warn("unsupported field: {}", field);
                 }
