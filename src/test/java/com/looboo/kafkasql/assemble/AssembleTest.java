@@ -75,6 +75,20 @@ public class AssembleTest extends KafkaTestBase {
     }
 
     @Test
+    public void test_select_star_from_topic_where_str_value_equal_xxxx() {
+        KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
+
+        driver.parsing(String.format("select * from test-topic-1 where str(value) =  '1'"));
+    }
+
+    @Test
+    public void test_select_star_from_topic_where_str_value_in_xxxx() {
+        KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
+
+        driver.parsing(String.format("select * from test-topic-1 where str(value) in ('1', '2', '3')"));
+    }
+
+    @Test
     public void test_select_star_from_topic_where_timestamp_between_xxx_and_xxx() {
         KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
 
