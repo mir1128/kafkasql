@@ -12,4 +12,5 @@ public class Constant {
     public final static String STR = KafkaSqlLexer.VOCABULARY.getSymbolicName(KafkaSqlLexer.STR);
     public final static String BYTE = KafkaSqlLexer.VOCABULARY.getSymbolicName(KafkaSqlLexer.BYTE);
     public final static String OFFSETS = KafkaSqlParser.VOCABULARY.getSymbolicName(KafkaSqlLexer.OFFSETS);
+    public final static String PARTITIONS = KafkaSqlParser.VOCABULARY.getSymbolicName(KafkaSqlLexer.PARTITIONS);
 }

@@ -16,6 +16,7 @@ import java.time.Duration;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -50,7 +51,16 @@ public class KafkaUtil implements IKafkaUtil {
 
     @Override
     public Collection<Integer> listPartitions(String topic) {
-        return null;
+        try {
+            return getLeaderTopicPartitions(topic).stream()
+                    .map(topicPartition -> topicPartition.partition())
+                    .collect(Collectors.toSet());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return new HashSet<>();
     }
 
     @Override
