@@ -28,7 +28,7 @@ public interface IKafkaUtil {
     //offset
     Map<TopicPartition, Long> getOffset(String topic);
 
-    Collection<Integer> getOffset(String topic, List<Integer> partitions);
+    Map<TopicPartition, Long> getOffset(String topic, List<Integer> partitions);
 
     Collection<Integer> getPartitions(String topic);
 

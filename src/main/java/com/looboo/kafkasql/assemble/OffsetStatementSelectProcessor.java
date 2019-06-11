@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.kafka.common.TopicPartition;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.looboo.kafkasql.assemble.Constant.OFFSETS;
@@ -40,7 +42,13 @@ public class OffsetStatementSelectProcessor implements SelectProcessor {
                 .findFirst()
                 .orElse(null);
 
-        Map<TopicPartition, Long> offset = kafkaUtil.getOffset(topic);
+        Map<TopicPartition, Long> offset = new HashMap<>();
+        if (tree.getChildCount() == 6) {
+            Integer partition = Integer.valueOf(tree.getChild(4).getText());
+            offset = kafkaUtil.getOffset(topic, Arrays.asList(partition));
+        } else if (tree.getChildCount() == 4) {
+            offset = kafkaUtil.getOffset(topic);
+        }
 
         String s = formatResult(offset);
     }

@@ -115,8 +115,19 @@ public class KafkaUtil implements IKafkaUtil {
 
 
     @Override
-    public Collection<Integer> getOffset(String topic, List<Integer> partitions) {
-        return null;
+    public Map<TopicPartition, Long> getOffset(String topic, List<Integer> partitions) {
+        try {
+            Set<TopicPartition> topicPartitionsSet = getLeaderTopicPartitions(topic).stream()
+                    .filter(t -> partitions.contains(t.partition()))
+                    .collect(Collectors.toSet());
+
+            return consumer.endOffsets(topicPartitionsSet);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return new HashMap<>();
     }
 
     @Override

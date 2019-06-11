@@ -19,4 +19,12 @@ public class OffsetStatementTest extends KafkaTestBase {
 
         driver.parsing("select offsets(test-topic-1)");
     }
+
+    @Test
+    public void test_select_star_from_topic_and_partition() {
+
+        KafkaSqlDriver driver = new KafkaSqlDriver(kafkaUtil);
+
+        driver.parsing("select offsets(test-topic-1.1)");
+    }
 }
