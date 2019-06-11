@@ -3,7 +3,6 @@ package com.looboo.kafkasql.kafka;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.kafka.clients.admin.NewTopic;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
@@ -51,7 +50,9 @@ public class KafkaTestBase {
         kafkaUtil = new KafkaUtil(kafkaConsumerConfig);
 
         send100Messages();
+        createTopics();
     }
+
 
     @AfterClass
     public static void stopKafkaServer() {
@@ -84,6 +85,12 @@ public class KafkaTestBase {
             Future<RecordMetadata> send = producer.send(new ProducerRecord(topicName, Integer.toString(i), Integer.toString(i)));
             recordMetadataList.add(send.get());
         }
+    }
+
+    private static void createTopics() throws ExecutionException, InterruptedException {
+        NewTopic newTopic1 = new NewTopic("test-topic-2", 1, (short)1);
+        NewTopic newTopic2 = new NewTopic("test-topic-3", 1, (short)1);
+        kafkaUtil.createTopics(Arrays.asList(newTopic1, newTopic2)).all().get();
     }
 
     protected static RecordMetadata randomRecordMetadata() {

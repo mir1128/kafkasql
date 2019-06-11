@@ -23,7 +23,7 @@ public class SelectProcessorFactory {
             return new OffsetStatementSelectProcessor(util);
         } else if (tree instanceof KafkaSqlParser.QuerySpecificationContext) {
             return new QuerySpecificationSelectProcessor(util);
-        } else if (tree instanceof TopicStatementSelectProcessor) {
+        } else if (tree instanceof KafkaSqlParser.TopicStatementContext) {
             return new TopicStatementSelectProcessor(util);
         } else if (tree instanceof KafkaSqlParser.PartitionsStatementContext) {
             return new PartitionStatementSelectProcessor(util);
