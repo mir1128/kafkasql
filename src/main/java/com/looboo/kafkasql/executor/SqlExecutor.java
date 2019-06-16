@@ -22,7 +22,16 @@ public class SqlExecutor implements Runnable {
     private final AtomicBoolean stopping = new AtomicBoolean(false);
     private final AtomicLong requestSeqNum = new AtomicLong();
 
-    public SqlExecutor() {
+    private static SqlExecutor instance = new SqlExecutor();
+
+    public static SqlExecutor getInstance() {
+        if (!instance.stopping.get()) {
+            instance.start();
+        }
+        return instance;
+    }
+
+    private SqlExecutor() {
         this.executorService = new ThreadPoolExecutor(2, 5, 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingDeque<>(1), r -> new Thread(r, "sql-execute-thread"));
     }
@@ -46,11 +55,11 @@ public class SqlExecutor implements Runnable {
         log.info("executor stopped");
     }
 
-    SqlExecutionRequest addRequest(Callable<Void> action, Callback<Void> callback) {
+    public SqlExecutionRequest addRequest(Callable<Void> action, Callback<Void> callback) {
         return addRequest(0, action, callback);
     }
 
-    SqlExecutionRequest addRequest(long delayMs, Callable<Void> action, Callback<Void> callback) {
+    public SqlExecutionRequest addRequest(long delayMs, Callable<Void> action, Callback<Void> callback) {
         SqlExecutionRequest req = new SqlExecutionRequest(System.currentTimeMillis() + delayMs, requestSeqNum.incrementAndGet(), action, callback);
         requests.add(req);
         return req;

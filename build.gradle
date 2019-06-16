@@ -12,6 +12,11 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+    jettyVersion = '9.4.6.v20170531'
+    jerseyVersion = '2.27'
+}
+
 dependencies {
     def kafkaVersion = '2.0.0'
     // https://mvnrepository.com/artifact/org.apache.kafka/kafka
@@ -32,6 +37,15 @@ dependencies {
 
     // https://mvnrepository.com/artifact/commons-io/commons-io
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
+
+    compile "org.eclipse.jetty:jetty-server:${jettyVersion}"
+    compile "org.eclipse.jetty:jetty-servlet:${jettyVersion}"
+
+    compile "org.glassfish.jersey.core:jersey-server:${jerseyVersion}"
+    compile "org.glassfish.jersey.containers:jersey-container-servlet-core:${jerseyVersion}"
+    compile "org.glassfish.jersey.containers:jersey-container-jetty-http:${jerseyVersion}"
+    compile "org.glassfish.jersey.media:jersey-media-json-jackson:${jerseyVersion}"
+    compile "org.glassfish.jersey.inject:jersey-hk2:${jerseyVersion}"
 
     // https://mvnrepository.com/artifact/org.projectlombok/lombok
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.8'

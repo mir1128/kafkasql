@@ -6,12 +6,7 @@ import org.junit.Test;
 
 public class ExecutorTest {
 
-    private static SqlExecutor executor = new SqlExecutor();
-
-    @BeforeClass
-    public static void startExecutor() {
-        executor.start();
-    }
+    private static SqlExecutor executor = SqlExecutor.getInstance();
 
     @AfterClass
     public static void stopExecutor() {
