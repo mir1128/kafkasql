@@ -53,8 +53,8 @@ public class RestServer {
         return connector;
     }
 
-    public void stop() {
-
+    public void stop() throws Exception {
+        jettyServer.stop();
     }
 
     public URI advertisedUrl() {
@@ -67,6 +67,5 @@ public class RestServer {
 
         return builder.build();
     }
-
 
 }
