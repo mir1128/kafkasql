@@ -55,7 +55,7 @@ public class SqlExecutor implements Runnable {
     public void run() {
         log.info("executor starting");
         defaultSqlDriver();
-        
+
         while (!stopping.get()) {
             tick();
         }
@@ -127,10 +127,22 @@ public class SqlExecutor implements Runnable {
         }, (e, r) ->{});
     }
 
+    public void addBroker(String name, Map<String, String> config, FutureCallback<String> callback) {
+        if (driverMap.containsKey(name)) {
+            callback.onCompletion(new RuntimeException("broker already exist."), null);
+        }
+
+        KafkaConsumerConfig kafkaConsumerConfig = new KafkaConsumerConfig(config);
+        driverMap.put(name, new KafkaSqlDriver(new KafkaUtil(kafkaConsumerConfig)));
+
+        callback.onCompletion(null, "created");
+    }
+
     private void defaultSqlDriver() {
         KafkaConsumerConfig kafkaConsumerConfig = new KafkaConsumerConfig(new HashMap<>());
         driverMap.put("default", new KafkaSqlDriver(new KafkaUtil(kafkaConsumerConfig)));
     }
+
 }
 
 

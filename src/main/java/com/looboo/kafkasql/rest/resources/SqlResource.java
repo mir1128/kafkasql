@@ -38,5 +38,22 @@ public class SqlResource {
             return ApiResponse.ofStatus(ApiResponse.Status.BAD_REQUEST);
         }
     }
+
+    @POST
+    @Path("broker/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ApiResponse addBoosstrapServer(@PathParam("name") final String name, final Map<String, String> config) {
+        log.info("add a broker {}", name);
+        FutureCallback<String> cb = new FutureCallback<>();
+        SqlExecutor.getInstance().addBroker(name, config, cb);
+
+        try {
+            return ApiResponse.ofSuccess(cb.get());
+        } catch (Exception e) {
+            log.warn("execute failed {}", e.getLocalizedMessage());
+            return ApiResponse.ofStatus(ApiResponse.Status.BAD_REQUEST);
+        }
+    }
 }
 

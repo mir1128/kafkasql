@@ -31,13 +31,12 @@ public class KafkaSqlDriver {
             return "";
         }
 
-        processSubStatement(tree.getChild(1));
-        return "";
+        return processSubStatement(tree.getChild(1));
     }
 
-    private void processSubStatement(ParseTree tree) {
+    private String processSubStatement(ParseTree tree) {
         SelectProcessor selectProcessor = SelectProcessorFactory.createProcessor(tree, kafkaUtil);
-        selectProcessor.process(tree);
+        return selectProcessor.process(tree);
     }
 
     private KafkaSqlParser buildParser(String sql)  {
