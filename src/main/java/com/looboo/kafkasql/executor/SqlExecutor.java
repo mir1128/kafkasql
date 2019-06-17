@@ -1,7 +1,12 @@
 package com.looboo.kafkasql.executor;
 
+import com.looboo.kafkasql.assemble.KafkaSqlDriver;
+import com.looboo.kafkasql.kafka.KafkaConsumerConfig;
+import com.looboo.kafkasql.kafka.KafkaUtil;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.concurrent.Callable;
@@ -23,6 +28,8 @@ public class SqlExecutor implements Runnable {
     private final AtomicLong requestSeqNum = new AtomicLong();
 
     private static SqlExecutor instance = new SqlExecutor();
+
+    private Map<String, KafkaSqlDriver> driverMap = new HashMap<>();
 
     public static SqlExecutor getInstance() {
         if (!instance.stopping.get()) {
@@ -47,12 +54,21 @@ public class SqlExecutor implements Runnable {
     @Override
     public void run() {
         log.info("executor starting");
-
+        defaultSqlDriver();
+        
         while (!stopping.get()) {
             tick();
         }
 
         log.info("executor stopped");
+    }
+
+    public boolean connect(String name, Map<String, String> opts) {
+        KafkaUtil util = new KafkaUtil(new KafkaConsumerConfig(opts));
+        KafkaSqlDriver driver = new KafkaSqlDriver(util);
+
+        driverMap.put(name, driver);
+        return true;
     }
 
     public SqlExecutionRequest addRequest(Callable<Void> action, Callback<Void> callback) {
@@ -91,4 +107,33 @@ public class SqlExecutor implements Runnable {
         }
         return null;
     }
+
+    public void execute(String name, Map<String, String> requestMap, FutureCallback<String> callback) {
+        addRequest(() -> {
+            if (!driverMap.containsKey(name)) {
+                callback.onCompletion(new RuntimeException("can not find bootstrap server"), null);
+                return null;
+            }
+
+            if (!requestMap.containsKey("sql")) {
+                callback.onCompletion(new RuntimeException("can not find sql to execute."), null);
+                return null;
+            }
+
+            KafkaSqlDriver driver = driverMap.get(name);
+            String result = driver.parsing(requestMap.get("sql"));
+            callback.onCompletion(null, result);
+            return null;
+        }, (e, r) ->{});
+    }
+
+    private void defaultSqlDriver() {
+        KafkaConsumerConfig kafkaConsumerConfig = new KafkaConsumerConfig(new HashMap<>());
+        driverMap.put("default", new KafkaSqlDriver(new KafkaUtil(kafkaConsumerConfig)));
+    }
 }
+
+
+
+
+

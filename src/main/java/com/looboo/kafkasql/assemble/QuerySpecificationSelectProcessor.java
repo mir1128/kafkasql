@@ -37,7 +37,7 @@ public class QuerySpecificationSelectProcessor implements SelectProcessor {
     }
 
     @Override
-    public void process(ParseTree tree) {
+    public String process(ParseTree tree) {
         if (!tree.getChild(1).getText().equals(FROM)) {
             log.warn("not a valid query statement: {}", tree.getText());
         }
@@ -58,7 +58,7 @@ public class QuerySpecificationSelectProcessor implements SelectProcessor {
         Map<TopicPartition, Long> offset = kafkaUtil.getOffset(topic);
         List<Filter> equalFilters = generateFilters(tree);
 
-        selectMessages(topicName, offset, equalFilters);
+        return selectMessages(topicName, offset, equalFilters);
     }
 
     private List<Filter> generateFilters(ParseTree tree) {

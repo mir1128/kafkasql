@@ -9,7 +9,7 @@ public class ConsumerStatementSelectProcessor implements SelectProcessor {
     }
 
     @Override
-    public void process(ParseTree tree) {
-
+    public String process(ParseTree tree) {
+        return "";
     }
 }

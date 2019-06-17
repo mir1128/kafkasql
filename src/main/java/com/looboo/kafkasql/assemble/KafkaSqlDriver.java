@@ -21,17 +21,18 @@ public class KafkaSqlDriver {
         this.kafkaUtil = kafkaUtil;
     }
 
-    public void parsing(String sql) {
+    public String parsing(String sql) {
         log.info("sql is {}", sql);
 
         KafkaSqlParser parser = buildParser(sql.toUpperCase());
         ParseTree tree = parser.selectStatement();
         if (tree.getChildCount() == 0 || !tree.getChild(0).getText().equals(SELECT_TOKEN)) {
             log.warn("[syntax error] sql must start with select");
-            return;
+            return "";
         }
 
         processSubStatement(tree.getChild(1));
+        return "";
     }
 
     private void processSubStatement(ParseTree tree) {

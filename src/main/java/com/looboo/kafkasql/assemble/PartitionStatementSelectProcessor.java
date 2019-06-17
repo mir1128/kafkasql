@@ -21,15 +21,15 @@ public class PartitionStatementSelectProcessor implements SelectProcessor {
     }
 
     @Override
-    public void process(ParseTree tree) {
+    public String process(ParseTree tree) {
         if (!(tree instanceof KafkaSqlParser.PartitionsStatementContext)) {
-            return;
+            return "";
         }
 
         String partitionsKeyword = tree.getChild(0).getText();
         if (!partitionsKeyword.equalsIgnoreCase(PARTITIONS)) {
             log.warn("not a valid partitions clause {}", tree.getText());
-            return;
+            return "";
         }
 
         String topicName = tree.getChild(2).getText();
@@ -41,6 +41,7 @@ public class PartitionStatementSelectProcessor implements SelectProcessor {
         Collection<Integer> partitions = kafkaUtil.listPartitions(topic);
 
         String s = formatResult(partitions, topic);
+        return s;
     }
 
     private String formatResult(Collection<Integer> partitions, String topic) {

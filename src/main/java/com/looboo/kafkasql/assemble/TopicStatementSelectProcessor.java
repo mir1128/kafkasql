@@ -18,9 +18,9 @@ public class TopicStatementSelectProcessor implements SelectProcessor {
     }
 
     @Override
-    public void process(ParseTree tree) {
+    public String process(ParseTree tree) {
         if (!(tree instanceof KafkaSqlParser.TopicStatementContext)) {
-            return;
+            return "";
         }
 
         if (!tree.getChild(0).getText().equalsIgnoreCase(TOPICS)) {
@@ -30,7 +30,7 @@ public class TopicStatementSelectProcessor implements SelectProcessor {
         StringBuilder stringBuilder = new StringBuilder();
         kafkaUtil.listTopics().forEach(topic -> stringBuilder.append("topic: " + topic).append("\n"));
         System.out.println(stringBuilder.toString());
-
+        return stringBuilder.toString();
     }
 }
 

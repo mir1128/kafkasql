@@ -22,9 +22,9 @@ public class OffsetStatementSelectProcessor implements SelectProcessor {
     }
 
     @Override
-    public void process(ParseTree tree) {
+    public String process(ParseTree tree) {
         if (!(tree instanceof KafkaSqlParser.OffsetStatementContext)) {
-            return;
+            return "";
         }
 
         if (!tree.getChild(0).getText().equalsIgnoreCase(OFFSETS)) {
@@ -34,7 +34,7 @@ public class OffsetStatementSelectProcessor implements SelectProcessor {
         String topicName = tree.getChild(2).getText();
         if (topicName == null || topicName.isEmpty()) {
             log.warn("topic name is null or empty {}", topicName);
-            return;
+            return "";
         }
 
         String topic = kafkaUtil.listTopics().stream()
@@ -51,6 +51,7 @@ public class OffsetStatementSelectProcessor implements SelectProcessor {
         }
 
         String s = formatResult(offset);
+        return s;
     }
 
     private String formatResult(Map<TopicPartition, Long> offset) {
