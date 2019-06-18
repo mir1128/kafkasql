@@ -108,23 +108,26 @@ public class SqlExecutor implements Runnable {
         return null;
     }
 
-    public void execute(String name, Map<String, String> requestMap, FutureCallback<String> callback) {
+    public void execute(String name, String sql, FutureCallback<String> callback) {
         addRequest(() -> {
             if (!driverMap.containsKey(name)) {
                 callback.onCompletion(new RuntimeException("can not find bootstrap server"), null);
                 return null;
             }
 
-            if (!requestMap.containsKey("sql")) {
-                callback.onCompletion(new RuntimeException("can not find sql to execute."), null);
-                return null;
-            }
-
             KafkaSqlDriver driver = driverMap.get(name);
-            String result = driver.parsing(requestMap.get("sql"));
+            String result = driver.parsing(sql);
             callback.onCompletion(null, result);
             return null;
         }, (e, r) ->{});
+    }
+
+    public void execute(String name, Map<String, String> requestMap, FutureCallback<String> callback) {
+        if (!requestMap.containsKey("sql")) {
+            callback.onCompletion(new RuntimeException("can not find sql to execute."), null);
+            return ;
+        }
+        execute(name, requestMap.get("sql"), callback);
     }
 
     public void addBroker(String name, Map<String, String> config, FutureCallback<String> callback) {
