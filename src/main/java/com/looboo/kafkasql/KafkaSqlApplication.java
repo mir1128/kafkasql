@@ -13,6 +13,7 @@ import java.util.Map;
 
 @Slf4j
 public class KafkaSqlApplication {
+    private static String prompts = "KafkaSql:>";
 
     public static void main(String[] args) throws Exception {
         Arguments arguments = new Arguments();
@@ -41,11 +42,14 @@ public class KafkaSqlApplication {
                 System.exit(0);
             } else {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                System.out.print(prompts);
                 String command = reader.readLine();
-                while (command.equalsIgnoreCase("exit")) {
+                while (command != null && !command.equalsIgnoreCase("exit")) {
                     FutureCallback<String> cbx = new FutureCallback<>();
                     SqlExecutor.getInstance().execute(name, command, cbx);
                     System.out.println(cbx.get());
+                    System.out.print(prompts);
+                    command = reader.readLine();
                 }
                 System.exit(0);
             }

@@ -60,7 +60,7 @@ public class OffsetStatementSelectProcessor implements SelectProcessor {
             stringBuilder.append("topic: " + topicPartition.topic() + "\t\tpartition: " + topicPartition.partition() + "\t\t\t\toffset: " + offset.get(topicPartition));
             stringBuilder.append("\n");
         }
-        System.out.println(stringBuilder.toString());
+        log.info(stringBuilder.toString());
         return stringBuilder.toString();
     }
 }

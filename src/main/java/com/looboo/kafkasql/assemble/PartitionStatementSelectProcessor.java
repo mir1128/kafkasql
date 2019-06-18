@@ -50,7 +50,7 @@ public class PartitionStatementSelectProcessor implements SelectProcessor {
         for (Integer partition: partitions) {
             stringBuilder.append(partition).append("\n");
         }
-        System.out.println(stringBuilder.toString());
+        log.info(stringBuilder.toString());
         return stringBuilder.toString();
     }
 }

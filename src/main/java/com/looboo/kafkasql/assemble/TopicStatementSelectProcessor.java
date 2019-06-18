@@ -29,7 +29,7 @@ public class TopicStatementSelectProcessor implements SelectProcessor {
 
         StringBuilder stringBuilder = new StringBuilder();
         kafkaUtil.listTopics().forEach(topic -> stringBuilder.append("topic: " + topic).append("\n"));
-        System.out.println(stringBuilder.toString());
+        log.info(stringBuilder.toString());
         return stringBuilder.toString();
     }
 }

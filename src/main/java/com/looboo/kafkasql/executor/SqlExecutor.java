@@ -54,8 +54,6 @@ public class SqlExecutor implements Runnable {
     @Override
     public void run() {
         log.info("executor starting");
-        defaultSqlDriver();
-
         while (!stopping.get()) {
             tick();
         }
@@ -140,12 +138,6 @@ public class SqlExecutor implements Runnable {
 
         callback.onCompletion(null, "created");
     }
-
-    private void defaultSqlDriver() {
-        KafkaConsumerConfig kafkaConsumerConfig = new KafkaConsumerConfig(new HashMap<>());
-        driverMap.put("default", new KafkaSqlDriver(new KafkaUtil(kafkaConsumerConfig)));
-    }
-
 }
 
 

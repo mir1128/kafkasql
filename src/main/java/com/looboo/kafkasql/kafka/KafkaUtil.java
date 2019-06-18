@@ -11,6 +11,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.TopicPartition;
+import org.apache.kafka.common.errors.InvalidTopicException;
 
 import java.time.Duration;
 import java.util.Collection;
@@ -131,6 +132,10 @@ public class KafkaUtil implements IKafkaUtil {
                     .filter(t -> partitions.contains(t.partition()))
                     .collect(Collectors.toSet());
 
+            if (topicPartitionsSet.isEmpty()) {
+                return Collections.emptyMap();
+            }
+
             return consumer.endOffsets(topicPartitionsSet);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -161,7 +166,12 @@ public class KafkaUtil implements IKafkaUtil {
     }
 
     private Set<TopicPartition> getLeaderTopicPartitions(String topic) throws InterruptedException, ExecutionException {
-        Map<String, TopicDescription> descriptionMap = adminClient.describeTopics(Collections.singleton(topic)).all().get();
+        Map<String, TopicDescription> descriptionMap = null;
+        try {
+            descriptionMap = adminClient.describeTopics(Collections.singleton(topic)).all().get();
+        } catch (Exception e) {
+            return Collections.emptySet();
+        }
 
         Set<LeaderTopicPartition> leaderTopicPartitions = descriptionMap.values().stream()
                 .map(topicDescription -> topicDescription.partitions().stream()

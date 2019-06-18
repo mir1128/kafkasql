@@ -32,7 +32,7 @@ public class RestServerTest extends KafkaTestBase {
 
     @Test
     public void star_reset_server() throws InterruptedException {
-        Thread.sleep(1000*60*60);
+
     }
 
     @AfterClass

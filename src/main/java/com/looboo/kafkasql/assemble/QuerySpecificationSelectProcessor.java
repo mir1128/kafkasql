@@ -53,6 +53,7 @@ public class QuerySpecificationSelectProcessor implements SelectProcessor {
 
         if (topic == null) {
             log.warn("topic {} is not exist", topicName);
+            return String.format("%s is not exist.", topicName);
         }
 
         Map<TopicPartition, Long> offset = kafkaUtil.getOffset(topic);
@@ -183,15 +184,20 @@ public class QuerySpecificationSelectProcessor implements SelectProcessor {
             sb.append("topic: " + topicPartition.topic() + "\t\tpartition: " + topicPartition.partition() + "\t\t\t\ttimestamp\n");
             List<ConsumerRecord> records = result.get(topicPartition);
             for (ConsumerRecord record : records) {
-                sb.append("key : " + new String((byte[]) record.key()))
-                        .append("\t\t\t\tvalue: " + new String((byte[]) record.value()))
+                sb.append("key : " + formatByte((byte[]) record.key()))
+                        .append("\t\t\t\tvalue: " + formatByte((byte[]) record.value()))
                         .append("\t\t\t\ttimestamp: " + record.timestamp())
                         .append("\n");
             }
             sb.append("-------------------------------------------\n");
         }
 
-        System.out.println(sb.toString());
+        log.info(sb.toString());
         return sb.toString();
+    }
+
+    private String formatByte(byte[] bytes) {
+        if (bytes == null) return "";
+        return new String(bytes);
     }
 }
