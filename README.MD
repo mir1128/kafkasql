@@ -1,0 +1,1 @@
+Read kafka messsage and other info via sql.
