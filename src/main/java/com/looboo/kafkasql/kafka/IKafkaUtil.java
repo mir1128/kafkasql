@@ -1,6 +1,7 @@
 package com.looboo.kafkasql.kafka;
 
 import org.antlr.v4.runtime.misc.Pair;
+import org.apache.kafka.clients.admin.ConsumerGroupDescription;
 import org.apache.kafka.clients.admin.CreateTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -32,7 +33,9 @@ public interface IKafkaUtil {
 
     Collection<Integer> getPartitions(String topic);
 
-    Collection<String> listConsumer(String topic);
+    Map<String, ConsumerGroupDescription> listConsumerGroups();
+
+    Map<String, ConsumerGroupDescription> listConsumerGroups(List<String> groups);
 
     Collection<Pair<String, Integer>> listConsumerOffset(String topic, String consumerName);
 

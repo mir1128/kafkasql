@@ -14,7 +14,7 @@ offsetStatement : OFFSETS '(' ID ('.' NUMBER (',' SPACE* NUMBER)*)? ')';
 
 partitionsStatement : PARTITIONS '(' ID ')';
 
-consumersStatement : CONSUMERS '(' ID ')';
+consumersStatement : CONSUMERS '(' STAR | ID ')';
 
 consumerOffsetStatement : CONSUMER_OFFSET '(' ID ')';
 
