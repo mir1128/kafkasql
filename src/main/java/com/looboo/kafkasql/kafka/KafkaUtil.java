@@ -186,7 +186,7 @@ public class KafkaUtil implements IKafkaUtil {
         return adminClient.createTopics(newTopics);
     }
 
-    private Set<TopicPartition> getLeaderTopicPartitions(String topic) {
+    private Set<TopicPartition> getLeaderTopicPartitions(String topic) throws InterruptedException, ExecutionException {
         Map<String, TopicDescription> descriptionMap;
         try {
             descriptionMap = adminClient.describeTopics(Collections.singleton(topic)).all().get();
