@@ -4,7 +4,7 @@ import com.looboo.kafkasql.parser.KafkaSqlLexer;
 import com.looboo.kafkasql.parser.KafkaSqlParser;
 
 public class Constant {
-    public final static String STAR = KafkaSqlLexer.VOCABULARY.getSymbolicName(KafkaSqlLexer.STAR);
+    public final static String STAR = "*";
     public final static String FROM = KafkaSqlLexer.VOCABULARY.getSymbolicName(KafkaSqlLexer.FROM);
     public final static String WHERE = KafkaSqlLexer.VOCABULARY.getSymbolicName(KafkaSqlLexer.WHERE);
     public final static String PARTITION = KafkaSqlLexer.VOCABULARY.getSymbolicName(KafkaSqlLexer.PARTITION);
@@ -14,4 +14,5 @@ public class Constant {
     public final static String OFFSETS = KafkaSqlParser.VOCABULARY.getSymbolicName(KafkaSqlLexer.OFFSETS);
     public final static String PARTITIONS = KafkaSqlParser.VOCABULARY.getSymbolicName(KafkaSqlLexer.PARTITIONS);
     public final static String TOPICS = KafkaSqlParser.VOCABULARY.getSymbolicName(KafkaSqlLexer.TOPICS);
+    public final static String CONSUMERS = KafkaSqlParser.VOCABULARY.getSymbolicName(KafkaSqlLexer.CONSUMERS);
 }

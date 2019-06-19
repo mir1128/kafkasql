@@ -3,6 +3,8 @@ package com.looboo.kafkasql.kafka;
 import com.looboo.kafkasql.assemble.LeaderTopicPartition;
 import org.antlr.v4.runtime.misc.Pair;
 import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.ConsumerGroupDescription;
+import org.apache.kafka.clients.admin.ConsumerGroupListing;
 import org.apache.kafka.clients.admin.CreateTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.admin.TopicDescription;
@@ -136,9 +138,7 @@ public class KafkaUtil implements IKafkaUtil {
             }
 
             return consumer.endOffsets(topicPartitionsSet);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
         return new HashMap<>();
@@ -150,8 +150,29 @@ public class KafkaUtil implements IKafkaUtil {
     }
 
     @Override
-    public Collection<String> listConsumer(String topic) {
-        return null;
+    public Map<String, ConsumerGroupDescription> listConsumerGroups() {
+        try {
+            Collection<String> groupIdList = adminClient.listConsumerGroups().all().get()
+                .stream().map(ConsumerGroupListing::groupId).collect(Collectors.toList());
+            return adminClient.describeConsumerGroups(groupIdList).all().get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return new HashMap<>();
+        }
+    }
+
+    @Override
+    public Map<String, ConsumerGroupDescription> listConsumerGroups(List<String> groups) {
+        try {
+            Collection<String> groupIdList = adminClient.listConsumerGroups().all().get()
+                .stream().map(ConsumerGroupListing::groupId)
+                .filter(groupId -> groups.contains(groupId.toUpperCase())).collect(Collectors.toList());
+
+            return adminClient.describeConsumerGroups(groupIdList).all().get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return new HashMap<>();
+        }
     }
 
     @Override
@@ -165,7 +186,7 @@ public class KafkaUtil implements IKafkaUtil {
     }
 
     private Set<TopicPartition> getLeaderTopicPartitions(String topic) throws InterruptedException, ExecutionException {
-        Map<String, TopicDescription> descriptionMap = null;
+        Map<String, TopicDescription> descriptionMap;
         try {
             descriptionMap = adminClient.describeTopics(Collections.singleton(topic)).all().get();
         } catch (Exception e) {

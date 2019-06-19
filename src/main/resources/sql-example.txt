@@ -25,7 +25,8 @@ select offsets(topic.1);
 select partitions(topic);
 
 //consumers
-select consumers(topic);
+select consumers(groupId);
+select consumers(*);
 select consumer_offset(topic);
 
 
