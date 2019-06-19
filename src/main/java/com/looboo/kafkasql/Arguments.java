@@ -40,7 +40,7 @@ public class Arguments {
     public String brokerName() {
         Random random = new Random();
         if (name == null) {
-            return "broker_" + random.nextInt();
+            return "broker_" + random.nextLong();
         } else {
             return name;
         }
