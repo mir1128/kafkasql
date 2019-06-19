@@ -4,6 +4,7 @@ import com.beust.jcommander.JCommander;
 import com.looboo.kafkasql.executor.FutureCallback;
 import com.looboo.kafkasql.executor.SqlExecutor;
 import com.looboo.kafkasql.rest.RestServer;
+import jline.console.ConsoleReader;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
@@ -44,8 +45,10 @@ public class KafkaSqlApplication {
                 System.out.println(cbx.get());
                 System.exit(0);
             } else {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-                System.out.print(prompts);
+
+                ConsoleReader reader = new ConsoleReader();
+                reader.setPrompt(prompts);
+
                 String command = reader.readLine();
                 while (command != null && !command.equalsIgnoreCase("exit")) {
                     FutureCallback<String> cbx = new FutureCallback<>();
