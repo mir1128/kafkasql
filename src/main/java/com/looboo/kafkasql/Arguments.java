@@ -23,6 +23,9 @@ public class Arguments {
     @Parameter(names = "--sql", description = "sql to execute.")
     private String sql;
 
+    @Parameter(names = {"--help", "-h"}, description = "help")
+    private boolean help;
+
     @Parameter(names = "--server-mode", description = "server mode")
     private boolean serverMode = false;
 

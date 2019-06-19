@@ -18,13 +18,16 @@ public class KafkaSqlApplication {
     public static void main(String[] args) throws Exception {
         Arguments arguments = new Arguments();
 
-        JCommander.newBuilder()
+        JCommander commander = JCommander.newBuilder()
                 .addObject(arguments)
-                .build()
-                .parse(args);
+                .build();
+        commander.parse(args);
 
-        if (arguments.isServerMode()) {
+        if (arguments.isHelp()) {
+            commander.usage();
+        } else if (arguments.isServerMode()) {
             RestServer restServer = new RestServer();
+            System.out.println("start kafka sql rest server. listening on " + restServer.advertisedUrl());
             restServer.start();
         } else {
             String name = arguments.brokerName();
