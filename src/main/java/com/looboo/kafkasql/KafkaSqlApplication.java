@@ -4,6 +4,7 @@ import com.beust.jcommander.JCommander;
 import com.looboo.kafkasql.executor.FutureCallback;
 import com.looboo.kafkasql.executor.SqlExecutor;
 import com.looboo.kafkasql.rest.RestServer;
+import com.looboo.kafkasql.ui.KeywordsCompleter;
 import jline.console.ConsoleReader;
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,13 +49,13 @@ public class KafkaSqlApplication {
 
                 ConsoleReader reader = new ConsoleReader();
                 reader.setPrompt(prompts);
+                reader.addCompleter(new KeywordsCompleter());
 
                 String command = reader.readLine();
                 while (command != null && !command.equalsIgnoreCase("exit")) {
                     FutureCallback<String> cbx = new FutureCallback<>();
                     SqlExecutor.getInstance().execute(name, command, cbx);
                     System.out.println(cbx.get());
-                    System.out.print(prompts);
                     command = reader.readLine();
                 }
                 System.exit(0);

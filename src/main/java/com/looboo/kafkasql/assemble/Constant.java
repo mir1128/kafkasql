@@ -15,4 +15,5 @@ public class Constant {
     public final static String PARTITIONS = KafkaSqlParser.VOCABULARY.getSymbolicName(KafkaSqlLexer.PARTITIONS);
     public final static String TOPICS = KafkaSqlParser.VOCABULARY.getSymbolicName(KafkaSqlLexer.TOPICS);
     public final static String CONSUMERS = KafkaSqlParser.VOCABULARY.getSymbolicName(KafkaSqlLexer.CONSUMERS);
+    public final static String SELECT = KafkaSqlParser.VOCABULARY.getSymbolicName(KafkaSqlLexer.SELECT);
 }
