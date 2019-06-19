@@ -41,6 +41,9 @@ dependencies {
     // https://mvnrepository.com/artifact/com.beust/jcommander
     compile group: 'com.beust', name: 'jcommander', version: '1.72'
 
+    // https://mvnrepository.com/artifact/jline/jline
+    compile group: 'jline', name: 'jline', version: '2.14.6'
+
     compile "org.eclipse.jetty:jetty-server:${jettyVersion}"
     compile "org.eclipse.jetty:jetty-servlet:${jettyVersion}"
 
