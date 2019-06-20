@@ -45,24 +45,24 @@ charsList: CHARS  (',' SPACE*  CHARS )*;
 
 WS:                     [ \t\n\r]+ -> skip ;
 
-SELECT:                 'SELECT';
-FROM:                   'FROM';
-IN:                     'IN';
-WHERE:                  'WHERE';
-BETWEEN:                'BETWEEN';
+SELECT:                 [Ss][Ee][Ll][Ee][Cc][Tt];
+FROM:                   [Ff][Rr][Oo][Mm];
+IN:                     [Ii][Nn];
+WHERE:                  [Ww][Hh][Ee][Rr][Ee];
+BETWEEN:                [Bb][Ee][Tt][Ww][Ee][Ee][Nn];
 
-PARTITION:              'PARTITION';
-TIMESTAMP:              'TIMESTAMP';
-OFFSET:                 'OFFSET';
+PARTITION:              [Pp][Aa][Tt][Ii][Tt][Ii][Oo][Nn];
+TIMESTAMP:              [Tt][Ii][Mm][Ee][Ss][Tt][Aa][Mm][Pp];
+OFFSET:                 [Oo][Ff][Ff][Ss][Ee][Tt];
 
-TOPICS:                 'TOPICS';
-OFFSETS:                'OFFSETS';
-PARTITIONS:             'PARTITIONS';
-CONSUMERS:              'CONSUMERS';
-CONSUMER_OFFSET:        'CONSUMER_OFFSET';
+TOPICS:                 [Tt][Oo][Pp][Ii][Cc][Ss];
+OFFSETS:                [Oo][Ff][Ff][Ss][Ee][Tt][Ss];
+PARTITIONS:             [Pp][Aa][Tt][Ii][Tt][Ii][Oo][Nn][Ss];
+CONSUMERS:              [Cc][Oo][Nn][Ss][Uu][Mm][Ee][Rr][Ss];
+CONSUMER_OFFSET:        [Cc][Oo][Nn][Ss][Uu][Mm][Ee][Rr]'_'[Oo][Ff][Ff][Ss][Ee][Tt];
 //
-BYTE:                   'BYTE';
-STR:                    'STR';
+BYTE:                   [Bb][Yy][Tt][Ee];
+STR:                    [Ss][Tt][Rr];
 STAR:                   '*';
 EQUAL:                  '=';
 SEMICOLON:              ';';
