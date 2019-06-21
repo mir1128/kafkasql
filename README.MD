@@ -72,5 +72,5 @@ Apache License Version 2.0
 
 
 #Examples
-![selects](./selects.png)
-![usage](./usage.png)
+![selects](./selects.png =1166*867)
+![usage](./usage.png =1166)
