@@ -1,4 +1,4 @@
-Read kafka messsage and other info via sql.
+Read kafka data and other metadata by SQL ( kafka-clients version 2.0.0 ).
 
 ## Start
 
