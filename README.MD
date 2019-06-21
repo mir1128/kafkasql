@@ -72,5 +72,6 @@ Apache License Version 2.0
 
 
 #Examples
-![selects](./selects.png =1166*867)
-![usage](./usage.png =1166)
+<img src="./selects.png" width = "800" height = "600" alt="selects" align=center />
+<img src="./usage.png" width = "800" height = "600" alt="selects" align=center />
+
