@@ -1,6 +1,6 @@
 Read kafka messsage and other info via sql.
 
-#Start
+# Start
 
 ```bash
 ➜  kafkasql git:(master) ✗ ./kafkasql.sh -b localhost:9092
@@ -9,7 +9,7 @@ KafkaSql:>
 ```
 
 
-#Usage
+# Usage
 
 ```bash
 ➜  kafkasql git:(master) ✗ ./kafkasql.sh -h
@@ -31,7 +31,7 @@ Usage: <main class> [options]
 ```
 
 
-#Syntax
+# Syntax
 
 ```sql
 
@@ -67,11 +67,11 @@ select consumer_offset(topic);
 
 ```
 
-#License
-Apache License Version 2.0
+# License
+[Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0) 
 
 
-#Examples
+# Examples
 <img src="./selects.png" width = "800" height = "600" alt="selects" align=center />
 </p>
   
