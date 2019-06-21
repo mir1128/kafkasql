@@ -13,6 +13,9 @@ select * from topic where timestamp in (1332232323155, 133223232315212);
 select * from topic where timestamp between(1332232323155, 133223232315212);
 
 
+//message count
+select count(topic.1);
+
 //message format
 select byte(key), byte(value) from topic;
 select str(key), str(value) from topic;

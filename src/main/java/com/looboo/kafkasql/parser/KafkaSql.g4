@@ -6,6 +6,7 @@ selectStatement : SELECT topicStatement
     | SELECT consumersStatement
     | SELECT consumerOffsetStatement
     | SELECT querySpecification
+    | SELECT countStatement
     ;
 
 topicStatement : TOPICS ;
@@ -17,6 +18,8 @@ partitionsStatement : PARTITIONS '(' ID ')';
 consumersStatement : CONSUMERS '(' (STAR | ID) ')';
 
 consumerOffsetStatement : CONSUMER_OFFSET '(' ID ')';
+
+countStatement: COUNT '(' ID ('.' NUMBER (',' SPACE* NUMBER)*)? ')';
 
 querySpecification : (STAR | value (',' value)*) FROM ID whereClause ? ;
 
@@ -60,6 +63,7 @@ OFFSETS:                [Oo][Ff][Ff][Ss][Ee][Tt][Ss];
 PARTITIONS:             [Pp][Aa][Tt][Ii][Tt][Ii][Oo][Nn][Ss];
 CONSUMERS:              [Cc][Oo][Nn][Ss][Uu][Mm][Ee][Rr][Ss];
 CONSUMER_OFFSET:        [Cc][Oo][Nn][Ss][Uu][Mm][Ee][Rr]'_'[Oo][Ff][Ff][Ss][Ee][Tt];
+COUNT:                  [Cc][Oo][Uu][Nn][Tt];
 //
 BYTE:                   [Bb][Yy][Tt][Ee];
 STR:                    [Ss][Tt][Rr];

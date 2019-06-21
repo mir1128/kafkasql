@@ -19,19 +19,19 @@ public class KafkaSqlParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, WS=5, SELECT=6, FROM=7, IN=8, WHERE=9, 
 		BETWEEN=10, PARTITION=11, TIMESTAMP=12, OFFSET=13, TOPICS=14, OFFSETS=15, 
-		PARTITIONS=16, CONSUMERS=17, CONSUMER_OFFSET=18, BYTE=19, STR=20, STAR=21, 
-		EQUAL=22, SEMICOLON=23, ID=24, SPACE=25, NUMBER=26, CHARS=27;
+		PARTITIONS=16, CONSUMERS=17, CONSUMER_OFFSET=18, COUNT=19, BYTE=20, STR=21, 
+		STAR=22, EQUAL=23, SEMICOLON=24, ID=25, SPACE=26, NUMBER=27, CHARS=28;
 	public static final int
 		RULE_selectStatement = 0, RULE_topicStatement = 1, RULE_offsetStatement = 2, 
 		RULE_partitionsStatement = 3, RULE_consumersStatement = 4, RULE_consumerOffsetStatement = 5, 
-		RULE_querySpecification = 6, RULE_value = 7, RULE_whereClause = 8, RULE_inCluase = 9, 
-		RULE_betweenCluase = 10, RULE_equationClause = 11, RULE_partitionsEquslCluase = 12, 
-		RULE_timestampEquslCluase = 13, RULE_valueEqualClause = 14, RULE_byteFunction = 15, 
-		RULE_strFunction = 16, RULE_numberList = 17, RULE_charsList = 18;
+		RULE_countStatement = 6, RULE_querySpecification = 7, RULE_value = 8, 
+		RULE_whereClause = 9, RULE_inCluase = 10, RULE_betweenCluase = 11, RULE_equationClause = 12, 
+		RULE_partitionsEquslCluase = 13, RULE_timestampEquslCluase = 14, RULE_valueEqualClause = 15, 
+		RULE_byteFunction = 16, RULE_strFunction = 17, RULE_numberList = 18, RULE_charsList = 19;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"selectStatement", "topicStatement", "offsetStatement", "partitionsStatement", 
-			"consumersStatement", "consumerOffsetStatement", "querySpecification", 
+			"consumersStatement", "consumerOffsetStatement", "countStatement", "querySpecification", 
 			"value", "whereClause", "inCluase", "betweenCluase", "equationClause", 
 			"partitionsEquslCluase", "timestampEquslCluase", "valueEqualClause", 
 			"byteFunction", "strFunction", "numberList", "charsList"
@@ -43,8 +43,8 @@ public class KafkaSqlParser extends Parser {
 		return new String[] {
 			null, "'('", "'.'", "','", "')'", null, "'SELECT'", "'FROM'", "'IN'", 
 			"'WHERE'", "'BETWEEN'", "'PARTITION'", "'TIMESTAMP'", "'OFFSET'", "'TOPICS'", 
-			"'OFFSETS'", "'PARTITIONS'", "'CONSUMERS'", "'CONSUMER_OFFSET'", "'BYTE'", 
-			"'STR'", "'*'", "'='", "';'", null, "' '"
+			"'OFFSETS'", "'PARTITIONS'", "'CONSUMERS'", "'CONSUMER_OFFSET'", "'COUNT'", 
+			"'BYTE'", "'STR'", "'*'", "'='", "';'", null, "' '"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -52,8 +52,8 @@ public class KafkaSqlParser extends Parser {
 		return new String[] {
 			null, null, null, null, null, "WS", "SELECT", "FROM", "IN", "WHERE", 
 			"BETWEEN", "PARTITION", "TIMESTAMP", "OFFSET", "TOPICS", "OFFSETS", "PARTITIONS", 
-			"CONSUMERS", "CONSUMER_OFFSET", "BYTE", "STR", "STAR", "EQUAL", "SEMICOLON", 
-			"ID", "SPACE", "NUMBER", "CHARS"
+			"CONSUMERS", "CONSUMER_OFFSET", "COUNT", "BYTE", "STR", "STAR", "EQUAL", 
+			"SEMICOLON", "ID", "SPACE", "NUMBER", "CHARS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -127,6 +127,9 @@ public class KafkaSqlParser extends Parser {
 		public QuerySpecificationContext querySpecification() {
 			return getRuleContext(QuerySpecificationContext.class,0);
 		}
+		public CountStatementContext countStatement() {
+			return getRuleContext(CountStatementContext.class,0);
+		}
 		public SelectStatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -137,61 +140,70 @@ public class KafkaSqlParser extends Parser {
 		SelectStatementContext _localctx = new SelectStatementContext(_ctx, getState());
 		enterRule(_localctx, 0, RULE_selectStatement);
 		try {
-			setState(50);
+			setState(54);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(38);
+				setState(40);
 				match(SELECT);
-				setState(39);
+				setState(41);
 				topicStatement();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(40);
+				setState(42);
 				match(SELECT);
-				setState(41);
+				setState(43);
 				offsetStatement();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(42);
+				setState(44);
 				match(SELECT);
-				setState(43);
+				setState(45);
 				partitionsStatement();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(44);
+				setState(46);
 				match(SELECT);
-				setState(45);
+				setState(47);
 				consumersStatement();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(46);
+				setState(48);
 				match(SELECT);
-				setState(47);
+				setState(49);
 				consumerOffsetStatement();
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(48);
+				setState(50);
 				match(SELECT);
-				setState(49);
+				setState(51);
 				querySpecification();
+				}
+				break;
+			case 7:
+				enterOuterAlt(_localctx, 7);
+				{
+				setState(52);
+				match(SELECT);
+				setState(53);
+				countStatement();
 				}
 				break;
 			}
@@ -221,7 +233,7 @@ public class KafkaSqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(52);
+			setState(56);
 			match(TOPICS);
 			}
 		}
@@ -260,55 +272,55 @@ public class KafkaSqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(54);
+			setState(58);
 			match(OFFSETS);
-			setState(55);
+			setState(59);
 			match(T__0);
-			setState(56);
+			setState(60);
 			match(ID);
-			setState(72);
+			setState(76);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__1) {
 				{
-				setState(57);
+				setState(61);
 				match(T__1);
-				setState(58);
+				setState(62);
 				match(NUMBER);
-				setState(69);
+				setState(73);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==T__2) {
 					{
 					{
-					setState(59);
-					match(T__2);
 					setState(63);
+					match(T__2);
+					setState(67);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 					while (_la==SPACE) {
 						{
 						{
-						setState(60);
+						setState(64);
 						match(SPACE);
 						}
 						}
-						setState(65);
+						setState(69);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
 					}
-					setState(66);
+					setState(70);
 					match(NUMBER);
 					}
 					}
-					setState(71);
+					setState(75);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
 				}
 			}
 
-			setState(74);
+			setState(78);
 			match(T__3);
 			}
 		}
@@ -338,13 +350,13 @@ public class KafkaSqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(76);
+			setState(80);
 			match(PARTITIONS);
-			setState(77);
+			setState(81);
 			match(T__0);
-			setState(78);
+			setState(82);
 			match(ID);
-			setState(79);
+			setState(83);
 			match(T__3);
 			}
 		}
@@ -376,11 +388,11 @@ public class KafkaSqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(81);
+			setState(85);
 			match(CONSUMERS);
-			setState(82);
+			setState(86);
 			match(T__0);
-			setState(83);
+			setState(87);
 			_la = _input.LA(1);
 			if ( !(_la==STAR || _la==ID) ) {
 			_errHandler.recoverInline(this);
@@ -390,7 +402,7 @@ public class KafkaSqlParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(84);
+			setState(88);
 			match(T__3);
 			}
 		}
@@ -420,13 +432,100 @@ public class KafkaSqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(86);
+			setState(90);
 			match(CONSUMER_OFFSET);
-			setState(87);
+			setState(91);
 			match(T__0);
-			setState(88);
+			setState(92);
 			match(ID);
-			setState(89);
+			setState(93);
+			match(T__3);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class CountStatementContext extends ParserRuleContext {
+		public TerminalNode COUNT() { return getToken(KafkaSqlParser.COUNT, 0); }
+		public TerminalNode ID() { return getToken(KafkaSqlParser.ID, 0); }
+		public List<TerminalNode> NUMBER() { return getTokens(KafkaSqlParser.NUMBER); }
+		public TerminalNode NUMBER(int i) {
+			return getToken(KafkaSqlParser.NUMBER, i);
+		}
+		public List<TerminalNode> SPACE() { return getTokens(KafkaSqlParser.SPACE); }
+		public TerminalNode SPACE(int i) {
+			return getToken(KafkaSqlParser.SPACE, i);
+		}
+		public CountStatementContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_countStatement; }
+	}
+
+	public final CountStatementContext countStatement() throws RecognitionException {
+		CountStatementContext _localctx = new CountStatementContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_countStatement);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(95);
+			match(COUNT);
+			setState(96);
+			match(T__0);
+			setState(97);
+			match(ID);
+			setState(113);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==T__1) {
+				{
+				setState(98);
+				match(T__1);
+				setState(99);
+				match(NUMBER);
+				setState(110);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==T__2) {
+					{
+					{
+					setState(100);
+					match(T__2);
+					setState(104);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+					while (_la==SPACE) {
+						{
+						{
+						setState(101);
+						match(SPACE);
+						}
+						}
+						setState(106);
+						_errHandler.sync(this);
+						_la = _input.LA(1);
+					}
+					setState(107);
+					match(NUMBER);
+					}
+					}
+					setState(112);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				}
+			}
+
+			setState(115);
 			match(T__3);
 			}
 		}
@@ -462,38 +561,38 @@ public class KafkaSqlParser extends Parser {
 
 	public final QuerySpecificationContext querySpecification() throws RecognitionException {
 		QuerySpecificationContext _localctx = new QuerySpecificationContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_querySpecification);
+		enterRule(_localctx, 14, RULE_querySpecification);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(100);
+			setState(126);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case STAR:
 				{
-				setState(91);
+				setState(117);
 				match(STAR);
 				}
 				break;
 			case BYTE:
 			case STR:
 				{
-				setState(92);
+				setState(118);
 				value();
-				setState(97);
+				setState(123);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==T__2) {
 					{
 					{
-					setState(93);
+					setState(119);
 					match(T__2);
-					setState(94);
+					setState(120);
 					value();
 					}
 					}
-					setState(99);
+					setState(125);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
@@ -502,16 +601,16 @@ public class KafkaSqlParser extends Parser {
 			default:
 				throw new NoViableAltException(this);
 			}
-			setState(102);
+			setState(128);
 			match(FROM);
-			setState(103);
+			setState(129);
 			match(ID);
-			setState(105);
+			setState(131);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==WHERE) {
 				{
-				setState(104);
+				setState(130);
 				whereClause();
 				}
 			}
@@ -544,22 +643,22 @@ public class KafkaSqlParser extends Parser {
 
 	public final ValueContext value() throws RecognitionException {
 		ValueContext _localctx = new ValueContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_value);
+		enterRule(_localctx, 16, RULE_value);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(109);
+			setState(135);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case BYTE:
 				{
-				setState(107);
+				setState(133);
 				byteFunction();
 				}
 				break;
 			case STR:
 				{
-				setState(108);
+				setState(134);
 				strFunction();
 				}
 				break;
@@ -598,30 +697,30 @@ public class KafkaSqlParser extends Parser {
 
 	public final WhereClauseContext whereClause() throws RecognitionException {
 		WhereClauseContext _localctx = new WhereClauseContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_whereClause);
+		enterRule(_localctx, 18, RULE_whereClause);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(111);
+			setState(137);
 			match(WHERE);
-			setState(115);
+			setState(141);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
 			case 1:
 				{
-				setState(112);
+				setState(138);
 				equationClause();
 				}
 				break;
 			case 2:
 				{
-				setState(113);
+				setState(139);
 				inCluase();
 				}
 				break;
 			case 3:
 				{
-				setState(114);
+				setState(140);
 				betweenCluase();
 				}
 				break;
@@ -666,74 +765,74 @@ public class KafkaSqlParser extends Parser {
 
 	public final InCluaseContext inCluase() throws RecognitionException {
 		InCluaseContext _localctx = new InCluaseContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_inCluase);
+		enterRule(_localctx, 20, RULE_inCluase);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(120);
+			setState(146);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case PARTITION:
 				{
-				setState(117);
+				setState(143);
 				match(PARTITION);
 				}
 				break;
 			case TIMESTAMP:
 				{
-				setState(118);
+				setState(144);
 				match(TIMESTAMP);
 				}
 				break;
 			case BYTE:
 			case STR:
 				{
-				setState(119);
+				setState(145);
 				value();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			setState(122);
+			setState(148);
 			match(IN);
-			setState(123);
+			setState(149);
 			match(T__0);
-			setState(152);
+			setState(178);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case NUMBER:
 				{
-				setState(124);
+				setState(150);
 				match(NUMBER);
-				setState(135);
+				setState(161);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==T__2) {
 					{
 					{
-					setState(125);
+					setState(151);
 					match(T__2);
-					setState(129);
+					setState(155);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 					while (_la==SPACE) {
 						{
 						{
-						setState(126);
+						setState(152);
 						match(SPACE);
 						}
 						}
-						setState(131);
+						setState(157);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
 					}
-					setState(132);
+					setState(158);
 					match(NUMBER);
 					}
 					}
-					setState(137);
+					setState(163);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
@@ -741,35 +840,35 @@ public class KafkaSqlParser extends Parser {
 				break;
 			case CHARS:
 				{
-				setState(138);
+				setState(164);
 				match(CHARS);
-				setState(149);
+				setState(175);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==T__2) {
 					{
 					{
-					setState(139);
+					setState(165);
 					match(T__2);
-					setState(143);
+					setState(169);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 					while (_la==SPACE) {
 						{
 						{
-						setState(140);
+						setState(166);
 						match(SPACE);
 						}
 						}
-						setState(145);
+						setState(171);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
 					}
-					setState(146);
+					setState(172);
 					match(CHARS);
 					}
 					}
-					setState(151);
+					setState(177);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
@@ -778,7 +877,7 @@ public class KafkaSqlParser extends Parser {
 			default:
 				throw new NoViableAltException(this);
 			}
-			setState(154);
+			setState(180);
 			match(T__3);
 			}
 		}
@@ -809,12 +908,12 @@ public class KafkaSqlParser extends Parser {
 
 	public final BetweenCluaseContext betweenCluase() throws RecognitionException {
 		BetweenCluaseContext _localctx = new BetweenCluaseContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_betweenCluase);
+		enterRule(_localctx, 22, RULE_betweenCluase);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(156);
+			setState(182);
 			_la = _input.LA(1);
 			if ( !(_la==PARTITION || _la==TIMESTAMP) ) {
 			_errHandler.recoverInline(this);
@@ -824,17 +923,17 @@ public class KafkaSqlParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(157);
+			setState(183);
 			match(BETWEEN);
-			setState(158);
+			setState(184);
 			match(T__0);
-			setState(159);
+			setState(185);
 			match(NUMBER);
-			setState(160);
+			setState(186);
 			match(T__2);
-			setState(161);
+			setState(187);
 			match(NUMBER);
-			setState(162);
+			setState(188);
 			match(T__3);
 			}
 		}
@@ -867,22 +966,22 @@ public class KafkaSqlParser extends Parser {
 
 	public final EquationClauseContext equationClause() throws RecognitionException {
 		EquationClauseContext _localctx = new EquationClauseContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_equationClause);
+		enterRule(_localctx, 24, RULE_equationClause);
 		try {
-			setState(167);
+			setState(193);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case PARTITION:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(164);
+				setState(190);
 				partitionsEquslCluase();
 				}
 				break;
 			case TIMESTAMP:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(165);
+				setState(191);
 				timestampEquslCluase();
 				}
 				break;
@@ -890,7 +989,7 @@ public class KafkaSqlParser extends Parser {
 			case STR:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(166);
+				setState(192);
 				valueEqualClause();
 				}
 				break;
@@ -921,15 +1020,15 @@ public class KafkaSqlParser extends Parser {
 
 	public final PartitionsEquslCluaseContext partitionsEquslCluase() throws RecognitionException {
 		PartitionsEquslCluaseContext _localctx = new PartitionsEquslCluaseContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_partitionsEquslCluase);
+		enterRule(_localctx, 26, RULE_partitionsEquslCluase);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(169);
+			setState(195);
 			match(PARTITION);
-			setState(170);
+			setState(196);
 			match(EQUAL);
-			setState(171);
+			setState(197);
 			match(NUMBER);
 			}
 		}
@@ -956,15 +1055,15 @@ public class KafkaSqlParser extends Parser {
 
 	public final TimestampEquslCluaseContext timestampEquslCluase() throws RecognitionException {
 		TimestampEquslCluaseContext _localctx = new TimestampEquslCluaseContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_timestampEquslCluase);
+		enterRule(_localctx, 28, RULE_timestampEquslCluase);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(173);
+			setState(199);
 			match(TIMESTAMP);
-			setState(174);
+			setState(200);
 			match(EQUAL);
-			setState(175);
+			setState(201);
 			match(NUMBER);
 			}
 		}
@@ -994,16 +1093,16 @@ public class KafkaSqlParser extends Parser {
 
 	public final ValueEqualClauseContext valueEqualClause() throws RecognitionException {
 		ValueEqualClauseContext _localctx = new ValueEqualClauseContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_valueEqualClause);
+		enterRule(_localctx, 30, RULE_valueEqualClause);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(177);
+			setState(203);
 			value();
-			setState(178);
+			setState(204);
 			match(EQUAL);
-			setState(179);
+			setState(205);
 			_la = _input.LA(1);
 			if ( !(_la==NUMBER || _la==CHARS) ) {
 			_errHandler.recoverInline(this);
@@ -1037,17 +1136,17 @@ public class KafkaSqlParser extends Parser {
 
 	public final ByteFunctionContext byteFunction() throws RecognitionException {
 		ByteFunctionContext _localctx = new ByteFunctionContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_byteFunction);
+		enterRule(_localctx, 32, RULE_byteFunction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(181);
+			setState(207);
 			match(BYTE);
-			setState(182);
+			setState(208);
 			match(T__0);
-			setState(183);
+			setState(209);
 			match(ID);
-			setState(184);
+			setState(210);
 			match(T__3);
 			}
 		}
@@ -1073,17 +1172,17 @@ public class KafkaSqlParser extends Parser {
 
 	public final StrFunctionContext strFunction() throws RecognitionException {
 		StrFunctionContext _localctx = new StrFunctionContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_strFunction);
+		enterRule(_localctx, 34, RULE_strFunction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(186);
+			setState(212);
 			match(STR);
-			setState(187);
+			setState(213);
 			match(T__0);
-			setState(188);
+			setState(214);
 			match(ID);
-			setState(189);
+			setState(215);
 			match(T__3);
 			}
 		}
@@ -1115,40 +1214,40 @@ public class KafkaSqlParser extends Parser {
 
 	public final NumberListContext numberList() throws RecognitionException {
 		NumberListContext _localctx = new NumberListContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_numberList);
+		enterRule(_localctx, 36, RULE_numberList);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(191);
+			setState(217);
 			match(NUMBER);
-			setState(202);
+			setState(228);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__2) {
 				{
 				{
-				setState(192);
+				setState(218);
 				match(T__2);
-				setState(196);
+				setState(222);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==SPACE) {
 					{
 					{
-					setState(193);
+					setState(219);
 					match(SPACE);
 					}
 					}
-					setState(198);
+					setState(224);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(199);
+				setState(225);
 				match(NUMBER);
 				}
 				}
-				setState(204);
+				setState(230);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -1182,40 +1281,40 @@ public class KafkaSqlParser extends Parser {
 
 	public final CharsListContext charsList() throws RecognitionException {
 		CharsListContext _localctx = new CharsListContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_charsList);
+		enterRule(_localctx, 38, RULE_charsList);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(205);
+			setState(231);
 			match(CHARS);
-			setState(216);
+			setState(242);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__2) {
 				{
 				{
-				setState(206);
+				setState(232);
 				match(T__2);
-				setState(210);
+				setState(236);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==SPACE) {
 					{
 					{
-					setState(207);
+					setState(233);
 					match(SPACE);
 					}
 					}
-					setState(212);
+					setState(238);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(213);
+				setState(239);
 				match(CHARS);
 				}
 				}
-				setState(218);
+				setState(244);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -1233,75 +1332,86 @@ public class KafkaSqlParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\35\u00de\4\2\t\2"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\36\u00f8\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
-		"\4\23\t\23\4\24\t\24\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\5"+
-		"\2\65\n\2\3\3\3\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4@\n\4\f\4\16\4C\13\4"+
-		"\3\4\7\4F\n\4\f\4\16\4I\13\4\5\4K\n\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\6"+
-		"\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3\b\7\bb\n\b\f\b\16\b"+
-		"e\13\b\5\bg\n\b\3\b\3\b\3\b\5\bl\n\b\3\t\3\t\5\tp\n\t\3\n\3\n\3\n\3\n"+
-		"\5\nv\n\n\3\13\3\13\3\13\5\13{\n\13\3\13\3\13\3\13\3\13\3\13\7\13\u0082"+
-		"\n\13\f\13\16\13\u0085\13\13\3\13\7\13\u0088\n\13\f\13\16\13\u008b\13"+
-		"\13\3\13\3\13\3\13\7\13\u0090\n\13\f\13\16\13\u0093\13\13\3\13\7\13\u0096"+
-		"\n\13\f\13\16\13\u0099\13\13\5\13\u009b\n\13\3\13\3\13\3\f\3\f\3\f\3\f"+
-		"\3\f\3\f\3\f\3\f\3\r\3\r\3\r\5\r\u00aa\n\r\3\16\3\16\3\16\3\16\3\17\3"+
-		"\17\3\17\3\17\3\20\3\20\3\20\3\20\3\21\3\21\3\21\3\21\3\21\3\22\3\22\3"+
-		"\22\3\22\3\22\3\23\3\23\3\23\7\23\u00c5\n\23\f\23\16\23\u00c8\13\23\3"+
-		"\23\7\23\u00cb\n\23\f\23\16\23\u00ce\13\23\3\24\3\24\3\24\7\24\u00d3\n"+
-		"\24\f\24\16\24\u00d6\13\24\3\24\7\24\u00d9\n\24\f\24\16\24\u00dc\13\24"+
-		"\3\24\2\2\25\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&\2\5\4\2\27\27"+
-		"\32\32\3\2\r\16\3\2\34\35\2\u00e5\2\64\3\2\2\2\4\66\3\2\2\2\68\3\2\2\2"+
-		"\bN\3\2\2\2\nS\3\2\2\2\fX\3\2\2\2\16f\3\2\2\2\20o\3\2\2\2\22q\3\2\2\2"+
-		"\24z\3\2\2\2\26\u009e\3\2\2\2\30\u00a9\3\2\2\2\32\u00ab\3\2\2\2\34\u00af"+
-		"\3\2\2\2\36\u00b3\3\2\2\2 \u00b7\3\2\2\2\"\u00bc\3\2\2\2$\u00c1\3\2\2"+
-		"\2&\u00cf\3\2\2\2()\7\b\2\2)\65\5\4\3\2*+\7\b\2\2+\65\5\6\4\2,-\7\b\2"+
-		"\2-\65\5\b\5\2./\7\b\2\2/\65\5\n\6\2\60\61\7\b\2\2\61\65\5\f\7\2\62\63"+
-		"\7\b\2\2\63\65\5\16\b\2\64(\3\2\2\2\64*\3\2\2\2\64,\3\2\2\2\64.\3\2\2"+
-		"\2\64\60\3\2\2\2\64\62\3\2\2\2\65\3\3\2\2\2\66\67\7\20\2\2\67\5\3\2\2"+
-		"\289\7\21\2\29:\7\3\2\2:J\7\32\2\2;<\7\4\2\2<G\7\34\2\2=A\7\5\2\2>@\7"+
-		"\33\2\2?>\3\2\2\2@C\3\2\2\2A?\3\2\2\2AB\3\2\2\2BD\3\2\2\2CA\3\2\2\2DF"+
-		"\7\34\2\2E=\3\2\2\2FI\3\2\2\2GE\3\2\2\2GH\3\2\2\2HK\3\2\2\2IG\3\2\2\2"+
-		"J;\3\2\2\2JK\3\2\2\2KL\3\2\2\2LM\7\6\2\2M\7\3\2\2\2NO\7\22\2\2OP\7\3\2"+
-		"\2PQ\7\32\2\2QR\7\6\2\2R\t\3\2\2\2ST\7\23\2\2TU\7\3\2\2UV\t\2\2\2VW\7"+
-		"\6\2\2W\13\3\2\2\2XY\7\24\2\2YZ\7\3\2\2Z[\7\32\2\2[\\\7\6\2\2\\\r\3\2"+
-		"\2\2]g\7\27\2\2^c\5\20\t\2_`\7\5\2\2`b\5\20\t\2a_\3\2\2\2be\3\2\2\2ca"+
-		"\3\2\2\2cd\3\2\2\2dg\3\2\2\2ec\3\2\2\2f]\3\2\2\2f^\3\2\2\2gh\3\2\2\2h"+
-		"i\7\t\2\2ik\7\32\2\2jl\5\22\n\2kj\3\2\2\2kl\3\2\2\2l\17\3\2\2\2mp\5 \21"+
-		"\2np\5\"\22\2om\3\2\2\2on\3\2\2\2p\21\3\2\2\2qu\7\13\2\2rv\5\30\r\2sv"+
-		"\5\24\13\2tv\5\26\f\2ur\3\2\2\2us\3\2\2\2ut\3\2\2\2v\23\3\2\2\2w{\7\r"+
-		"\2\2x{\7\16\2\2y{\5\20\t\2zw\3\2\2\2zx\3\2\2\2zy\3\2\2\2{|\3\2\2\2|}\7"+
-		"\n\2\2}\u009a\7\3\2\2~\u0089\7\34\2\2\177\u0083\7\5\2\2\u0080\u0082\7"+
-		"\33\2\2\u0081\u0080\3\2\2\2\u0082\u0085\3\2\2\2\u0083\u0081\3\2\2\2\u0083"+
-		"\u0084\3\2\2\2\u0084\u0086\3\2\2\2\u0085\u0083\3\2\2\2\u0086\u0088\7\34"+
-		"\2\2\u0087\177\3\2\2\2\u0088\u008b\3\2\2\2\u0089\u0087\3\2\2\2\u0089\u008a"+
-		"\3\2\2\2\u008a\u009b\3\2\2\2\u008b\u0089\3\2\2\2\u008c\u0097\7\35\2\2"+
-		"\u008d\u0091\7\5\2\2\u008e\u0090\7\33\2\2\u008f\u008e\3\2\2\2\u0090\u0093"+
-		"\3\2\2\2\u0091\u008f\3\2\2\2\u0091\u0092\3\2\2\2\u0092\u0094\3\2\2\2\u0093"+
-		"\u0091\3\2\2\2\u0094\u0096\7\35\2\2\u0095\u008d\3\2\2\2\u0096\u0099\3"+
-		"\2\2\2\u0097\u0095\3\2\2\2\u0097\u0098\3\2\2\2\u0098\u009b\3\2\2\2\u0099"+
-		"\u0097\3\2\2\2\u009a~\3\2\2\2\u009a\u008c\3\2\2\2\u009b\u009c\3\2\2\2"+
-		"\u009c\u009d\7\6\2\2\u009d\25\3\2\2\2\u009e\u009f\t\3\2\2\u009f\u00a0"+
-		"\7\f\2\2\u00a0\u00a1\7\3\2\2\u00a1\u00a2\7\34\2\2\u00a2\u00a3\7\5\2\2"+
-		"\u00a3\u00a4\7\34\2\2\u00a4\u00a5\7\6\2\2\u00a5\27\3\2\2\2\u00a6\u00aa"+
-		"\5\32\16\2\u00a7\u00aa\5\34\17\2\u00a8\u00aa\5\36\20\2\u00a9\u00a6\3\2"+
-		"\2\2\u00a9\u00a7\3\2\2\2\u00a9\u00a8\3\2\2\2\u00aa\31\3\2\2\2\u00ab\u00ac"+
-		"\7\r\2\2\u00ac\u00ad\7\30\2\2\u00ad\u00ae\7\34\2\2\u00ae\33\3\2\2\2\u00af"+
-		"\u00b0\7\16\2\2\u00b0\u00b1\7\30\2\2\u00b1\u00b2\7\34\2\2\u00b2\35\3\2"+
-		"\2\2\u00b3\u00b4\5\20\t\2\u00b4\u00b5\7\30\2\2\u00b5\u00b6\t\4\2\2\u00b6"+
-		"\37\3\2\2\2\u00b7\u00b8\7\25\2\2\u00b8\u00b9\7\3\2\2\u00b9\u00ba\7\32"+
-		"\2\2\u00ba\u00bb\7\6\2\2\u00bb!\3\2\2\2\u00bc\u00bd\7\26\2\2\u00bd\u00be"+
-		"\7\3\2\2\u00be\u00bf\7\32\2\2\u00bf\u00c0\7\6\2\2\u00c0#\3\2\2\2\u00c1"+
-		"\u00cc\7\34\2\2\u00c2\u00c6\7\5\2\2\u00c3\u00c5\7\33\2\2\u00c4\u00c3\3"+
-		"\2\2\2\u00c5\u00c8\3\2\2\2\u00c6\u00c4\3\2\2\2\u00c6\u00c7\3\2\2\2\u00c7"+
-		"\u00c9\3\2\2\2\u00c8\u00c6\3\2\2\2\u00c9\u00cb\7\34\2\2\u00ca\u00c2\3"+
-		"\2\2\2\u00cb\u00ce\3\2\2\2\u00cc\u00ca\3\2\2\2\u00cc\u00cd\3\2\2\2\u00cd"+
-		"%\3\2\2\2\u00ce\u00cc\3\2\2\2\u00cf\u00da\7\35\2\2\u00d0\u00d4\7\5\2\2"+
-		"\u00d1\u00d3\7\33\2\2\u00d2\u00d1\3\2\2\2\u00d3\u00d6\3\2\2\2\u00d4\u00d2"+
-		"\3\2\2\2\u00d4\u00d5\3\2\2\2\u00d5\u00d7\3\2\2\2\u00d6\u00d4\3\2\2\2\u00d7"+
-		"\u00d9\7\35\2\2\u00d8\u00d0\3\2\2\2\u00d9\u00dc\3\2\2\2\u00da\u00d8\3"+
-		"\2\2\2\u00da\u00db\3\2\2\2\u00db\'\3\2\2\2\u00dc\u00da\3\2\2\2\26\64A"+
-		"GJcfkouz\u0083\u0089\u0091\u0097\u009a\u00a9\u00c6\u00cc\u00d4\u00da";
+		"\4\23\t\23\4\24\t\24\4\25\t\25\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2"+
+		"\3\2\3\2\3\2\3\2\5\29\n\2\3\3\3\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4D\n\4"+
+		"\f\4\16\4G\13\4\3\4\7\4J\n\4\f\4\16\4M\13\4\5\4O\n\4\3\4\3\4\3\5\3\5\3"+
+		"\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3\b\3\b"+
+		"\3\b\3\b\7\bi\n\b\f\b\16\bl\13\b\3\b\7\bo\n\b\f\b\16\br\13\b\5\bt\n\b"+
+		"\3\b\3\b\3\t\3\t\3\t\3\t\7\t|\n\t\f\t\16\t\177\13\t\5\t\u0081\n\t\3\t"+
+		"\3\t\3\t\5\t\u0086\n\t\3\n\3\n\5\n\u008a\n\n\3\13\3\13\3\13\3\13\5\13"+
+		"\u0090\n\13\3\f\3\f\3\f\5\f\u0095\n\f\3\f\3\f\3\f\3\f\3\f\7\f\u009c\n"+
+		"\f\f\f\16\f\u009f\13\f\3\f\7\f\u00a2\n\f\f\f\16\f\u00a5\13\f\3\f\3\f\3"+
+		"\f\7\f\u00aa\n\f\f\f\16\f\u00ad\13\f\3\f\7\f\u00b0\n\f\f\f\16\f\u00b3"+
+		"\13\f\5\f\u00b5\n\f\3\f\3\f\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\16\3\16"+
+		"\3\16\5\16\u00c4\n\16\3\17\3\17\3\17\3\17\3\20\3\20\3\20\3\20\3\21\3\21"+
+		"\3\21\3\21\3\22\3\22\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\23\3\24\3\24"+
+		"\3\24\7\24\u00df\n\24\f\24\16\24\u00e2\13\24\3\24\7\24\u00e5\n\24\f\24"+
+		"\16\24\u00e8\13\24\3\25\3\25\3\25\7\25\u00ed\n\25\f\25\16\25\u00f0\13"+
+		"\25\3\25\7\25\u00f3\n\25\f\25\16\25\u00f6\13\25\3\25\2\2\26\2\4\6\b\n"+
+		"\f\16\20\22\24\26\30\32\34\36 \"$&(\2\5\4\2\30\30\33\33\3\2\r\16\3\2\35"+
+		"\36\2\u0102\28\3\2\2\2\4:\3\2\2\2\6<\3\2\2\2\bR\3\2\2\2\nW\3\2\2\2\f\\"+
+		"\3\2\2\2\16a\3\2\2\2\20\u0080\3\2\2\2\22\u0089\3\2\2\2\24\u008b\3\2\2"+
+		"\2\26\u0094\3\2\2\2\30\u00b8\3\2\2\2\32\u00c3\3\2\2\2\34\u00c5\3\2\2\2"+
+		"\36\u00c9\3\2\2\2 \u00cd\3\2\2\2\"\u00d1\3\2\2\2$\u00d6\3\2\2\2&\u00db"+
+		"\3\2\2\2(\u00e9\3\2\2\2*+\7\b\2\2+9\5\4\3\2,-\7\b\2\2-9\5\6\4\2./\7\b"+
+		"\2\2/9\5\b\5\2\60\61\7\b\2\2\619\5\n\6\2\62\63\7\b\2\2\639\5\f\7\2\64"+
+		"\65\7\b\2\2\659\5\20\t\2\66\67\7\b\2\2\679\5\16\b\28*\3\2\2\28,\3\2\2"+
+		"\28.\3\2\2\28\60\3\2\2\28\62\3\2\2\28\64\3\2\2\28\66\3\2\2\29\3\3\2\2"+
+		"\2:;\7\20\2\2;\5\3\2\2\2<=\7\21\2\2=>\7\3\2\2>N\7\33\2\2?@\7\4\2\2@K\7"+
+		"\35\2\2AE\7\5\2\2BD\7\34\2\2CB\3\2\2\2DG\3\2\2\2EC\3\2\2\2EF\3\2\2\2F"+
+		"H\3\2\2\2GE\3\2\2\2HJ\7\35\2\2IA\3\2\2\2JM\3\2\2\2KI\3\2\2\2KL\3\2\2\2"+
+		"LO\3\2\2\2MK\3\2\2\2N?\3\2\2\2NO\3\2\2\2OP\3\2\2\2PQ\7\6\2\2Q\7\3\2\2"+
+		"\2RS\7\22\2\2ST\7\3\2\2TU\7\33\2\2UV\7\6\2\2V\t\3\2\2\2WX\7\23\2\2XY\7"+
+		"\3\2\2YZ\t\2\2\2Z[\7\6\2\2[\13\3\2\2\2\\]\7\24\2\2]^\7\3\2\2^_\7\33\2"+
+		"\2_`\7\6\2\2`\r\3\2\2\2ab\7\25\2\2bc\7\3\2\2cs\7\33\2\2de\7\4\2\2ep\7"+
+		"\35\2\2fj\7\5\2\2gi\7\34\2\2hg\3\2\2\2il\3\2\2\2jh\3\2\2\2jk\3\2\2\2k"+
+		"m\3\2\2\2lj\3\2\2\2mo\7\35\2\2nf\3\2\2\2or\3\2\2\2pn\3\2\2\2pq\3\2\2\2"+
+		"qt\3\2\2\2rp\3\2\2\2sd\3\2\2\2st\3\2\2\2tu\3\2\2\2uv\7\6\2\2v\17\3\2\2"+
+		"\2w\u0081\7\30\2\2x}\5\22\n\2yz\7\5\2\2z|\5\22\n\2{y\3\2\2\2|\177\3\2"+
+		"\2\2}{\3\2\2\2}~\3\2\2\2~\u0081\3\2\2\2\177}\3\2\2\2\u0080w\3\2\2\2\u0080"+
+		"x\3\2\2\2\u0081\u0082\3\2\2\2\u0082\u0083\7\t\2\2\u0083\u0085\7\33\2\2"+
+		"\u0084\u0086\5\24\13\2\u0085\u0084\3\2\2\2\u0085\u0086\3\2\2\2\u0086\21"+
+		"\3\2\2\2\u0087\u008a\5\"\22\2\u0088\u008a\5$\23\2\u0089\u0087\3\2\2\2"+
+		"\u0089\u0088\3\2\2\2\u008a\23\3\2\2\2\u008b\u008f\7\13\2\2\u008c\u0090"+
+		"\5\32\16\2\u008d\u0090\5\26\f\2\u008e\u0090\5\30\r\2\u008f\u008c\3\2\2"+
+		"\2\u008f\u008d\3\2\2\2\u008f\u008e\3\2\2\2\u0090\25\3\2\2\2\u0091\u0095"+
+		"\7\r\2\2\u0092\u0095\7\16\2\2\u0093\u0095\5\22\n\2\u0094\u0091\3\2\2\2"+
+		"\u0094\u0092\3\2\2\2\u0094\u0093\3\2\2\2\u0095\u0096\3\2\2\2\u0096\u0097"+
+		"\7\n\2\2\u0097\u00b4\7\3\2\2\u0098\u00a3\7\35\2\2\u0099\u009d\7\5\2\2"+
+		"\u009a\u009c\7\34\2\2\u009b\u009a\3\2\2\2\u009c\u009f\3\2\2\2\u009d\u009b"+
+		"\3\2\2\2\u009d\u009e\3\2\2\2\u009e\u00a0\3\2\2\2\u009f\u009d\3\2\2\2\u00a0"+
+		"\u00a2\7\35\2\2\u00a1\u0099\3\2\2\2\u00a2\u00a5\3\2\2\2\u00a3\u00a1\3"+
+		"\2\2\2\u00a3\u00a4\3\2\2\2\u00a4\u00b5\3\2\2\2\u00a5\u00a3\3\2\2\2\u00a6"+
+		"\u00b1\7\36\2\2\u00a7\u00ab\7\5\2\2\u00a8\u00aa\7\34\2\2\u00a9\u00a8\3"+
+		"\2\2\2\u00aa\u00ad\3\2\2\2\u00ab\u00a9\3\2\2\2\u00ab\u00ac\3\2\2\2\u00ac"+
+		"\u00ae\3\2\2\2\u00ad\u00ab\3\2\2\2\u00ae\u00b0\7\36\2\2\u00af\u00a7\3"+
+		"\2\2\2\u00b0\u00b3\3\2\2\2\u00b1\u00af\3\2\2\2\u00b1\u00b2\3\2\2\2\u00b2"+
+		"\u00b5\3\2\2\2\u00b3\u00b1\3\2\2\2\u00b4\u0098\3\2\2\2\u00b4\u00a6\3\2"+
+		"\2\2\u00b5\u00b6\3\2\2\2\u00b6\u00b7\7\6\2\2\u00b7\27\3\2\2\2\u00b8\u00b9"+
+		"\t\3\2\2\u00b9\u00ba\7\f\2\2\u00ba\u00bb\7\3\2\2\u00bb\u00bc\7\35\2\2"+
+		"\u00bc\u00bd\7\5\2\2\u00bd\u00be\7\35\2\2\u00be\u00bf\7\6\2\2\u00bf\31"+
+		"\3\2\2\2\u00c0\u00c4\5\34\17\2\u00c1\u00c4\5\36\20\2\u00c2\u00c4\5 \21"+
+		"\2\u00c3\u00c0\3\2\2\2\u00c3\u00c1\3\2\2\2\u00c3\u00c2\3\2\2\2\u00c4\33"+
+		"\3\2\2\2\u00c5\u00c6\7\r\2\2\u00c6\u00c7\7\31\2\2\u00c7\u00c8\7\35\2\2"+
+		"\u00c8\35\3\2\2\2\u00c9\u00ca\7\16\2\2\u00ca\u00cb\7\31\2\2\u00cb\u00cc"+
+		"\7\35\2\2\u00cc\37\3\2\2\2\u00cd\u00ce\5\22\n\2\u00ce\u00cf\7\31\2\2\u00cf"+
+		"\u00d0\t\4\2\2\u00d0!\3\2\2\2\u00d1\u00d2\7\26\2\2\u00d2\u00d3\7\3\2\2"+
+		"\u00d3\u00d4\7\33\2\2\u00d4\u00d5\7\6\2\2\u00d5#\3\2\2\2\u00d6\u00d7\7"+
+		"\27\2\2\u00d7\u00d8\7\3\2\2\u00d8\u00d9\7\33\2\2\u00d9\u00da\7\6\2\2\u00da"+
+		"%\3\2\2\2\u00db\u00e6\7\35\2\2\u00dc\u00e0\7\5\2\2\u00dd\u00df\7\34\2"+
+		"\2\u00de\u00dd\3\2\2\2\u00df\u00e2\3\2\2\2\u00e0\u00de\3\2\2\2\u00e0\u00e1"+
+		"\3\2\2\2\u00e1\u00e3\3\2\2\2\u00e2\u00e0\3\2\2\2\u00e3\u00e5\7\35\2\2"+
+		"\u00e4\u00dc\3\2\2\2\u00e5\u00e8\3\2\2\2\u00e6\u00e4\3\2\2\2\u00e6\u00e7"+
+		"\3\2\2\2\u00e7\'\3\2\2\2\u00e8\u00e6\3\2\2\2\u00e9\u00f4\7\36\2\2\u00ea"+
+		"\u00ee\7\5\2\2\u00eb\u00ed\7\34\2\2\u00ec\u00eb\3\2\2\2\u00ed\u00f0\3"+
+		"\2\2\2\u00ee\u00ec\3\2\2\2\u00ee\u00ef\3\2\2\2\u00ef\u00f1\3\2\2\2\u00f0"+
+		"\u00ee\3\2\2\2\u00f1\u00f3\7\36\2\2\u00f2\u00ea\3\2\2\2\u00f3\u00f6\3"+
+		"\2\2\2\u00f4\u00f2\3\2\2\2\u00f4\u00f5\3\2\2\2\u00f5)\3\2\2\2\u00f6\u00f4"+
+		"\3\2\2\2\318EKNjps}\u0080\u0085\u0089\u008f\u0094\u009d\u00a3\u00ab\u00b1"+
+		"\u00b4\u00c3\u00e0\u00e6\u00ee\u00f4";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
