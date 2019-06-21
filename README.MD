@@ -73,5 +73,8 @@ Apache License Version 2.0
 
 #Examples
 <img src="./selects.png" width = "800" height = "600" alt="selects" align=center />
+</p>
+  
+</p>
 <img src="./usage.png" width = "800" height = "600" alt="selects" align=center />
 
